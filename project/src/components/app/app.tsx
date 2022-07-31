@@ -1,16 +1,18 @@
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import {AddReview, Main, Movie, MyList, NotFound, Player, SignIn} from '../../pages';
 import {PrivateRoute} from '../';
 import {RouteName} from '../../constants/route-name';
 import {AuthStatus} from '../../constants/auth-status';
 import {RouteType} from '../../types/route-type';
 import {useAppSelector} from '../../hooks';
-import {selectIsDataLoaded} from '../../store/select';
+import {selectAuthStatus, selectIsDataLoaded} from '../../store/select';
 import Loader from '../loader/loader';
+import HistoryRouter from '../history-route/history-route';
+import browserHistory from '../../utils/browser-history';
 
 function App(): JSX.Element {
-  const authStatus = AuthStatus.Auth;
   const isDataLoaded = useAppSelector(selectIsDataLoaded);
+  const authStatus = useAppSelector(selectAuthStatus);
   const routes: RouteType[] = [
     {
       path: RouteName.Main,
@@ -27,7 +29,7 @@ function App(): JSX.Element {
     {
       path: RouteName.MyList,
       element: (
-        <PrivateRoute authStatus={authStatus}>
+        <PrivateRoute>
           <MyList/>
         </PrivateRoute>
       )
@@ -39,7 +41,7 @@ function App(): JSX.Element {
     {
       path: RouteName.AddReview.path,
       element: (
-        <PrivateRoute authStatus={authStatus}>
+        <PrivateRoute>
           <AddReview/>
         </PrivateRoute>
       )
@@ -54,12 +56,12 @@ function App(): JSX.Element {
     },
   ];
 
-  if (isDataLoaded) {
+  if (authStatus === AuthStatus.Unknown || isDataLoaded) {
     return <Loader/>;
   }
 
   return (
-    <BrowserRouter>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         {routes.map((route) => (
           <Route
@@ -69,7 +71,7 @@ function App(): JSX.Element {
           />
         ))}
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 

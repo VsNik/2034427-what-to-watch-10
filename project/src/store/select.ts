@@ -14,5 +14,8 @@ export const selectFilterFilms = (state: State) =>
     ? state.films.filter((item: FilmType) => item.genre.toLowerCase() === state.genre)
     : state.films;
 
-export const selectFilmGenres = (state: State) =>
-  getGenres(state.films);
+export const selectFilmGenres = (state: State) => getGenres(state.films);
+
+export const selectAuthStatus = (state: State) => state.authStatus;
+
+export const selectError = (state: State) => state.error;
