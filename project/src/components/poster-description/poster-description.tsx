@@ -1,9 +1,9 @@
 import {Link, useMatch} from 'react-router-dom';
 import {RouteName} from '../../constants/route-name';
 import {getAddReviewUrl, getPlayerUrl} from '../../utils/route';
-import {useAppSelector} from '../../hooks';
-import {selectAuthStatus} from '../../store/select';
+import {useAppSelector} from '../../hooks/use-app-selector';
 import {AuthStatus} from '../../constants/auth-status';
+import {selectAuthStatus} from '../../store/auth-slice/select';
 
 type PosterDescriptionProps = {
   id: number;

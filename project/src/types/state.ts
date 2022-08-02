@@ -1,7 +1,7 @@
 import {store} from '../store';
-import {reducer} from '../store/reducer';
+import {rootReducer} from '../store/root-reducer';
 
-export type Reducer = ReturnType<typeof reducer>;
+export type Reducer = ReturnType<typeof rootReducer>;
 
 export type State = ReturnType<typeof store.getState>;
 

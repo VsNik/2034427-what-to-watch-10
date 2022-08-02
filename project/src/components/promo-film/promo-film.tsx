@@ -1,6 +1,6 @@
 import {Header, Poster, PosterDescription} from '../index';
-import {useAppSelector} from '../../hooks';
-import {selectPromoFilm} from '../../store/select';
+import {useAppSelector} from '../../hooks/use-app-selector';
+import {selectPromoFilm} from '../../store/promo-slice/select';
 
 function PromoFilm() {
   const promoFilm = useAppSelector(selectPromoFilm);

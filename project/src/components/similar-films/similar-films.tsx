@@ -1,7 +1,7 @@
 import {FilmsList} from '../index';
-import {useAppSelector} from '../../hooks';
-import {selectFilms} from '../../store/select';
+import {useAppSelector} from '../../hooks/use-app-selector';
 import {MAX_COUNT_SIMILAR_FILMS} from '../../constants/common';
+import {selectFilms} from '../../store/films-slice/select';
 
 function SimilarFilms(): JSX.Element {
   const similarFilms = useAppSelector(selectFilms)

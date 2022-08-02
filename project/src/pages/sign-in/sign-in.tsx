@@ -1,11 +1,15 @@
-import {Footer, Header} from '../../components';
 import {FormEvent, useState} from 'react';
 import {Navigate} from 'react-router-dom';
+import {Footer, Header} from '../../components';
 import {RouteName} from '../../constants/route-name';
-import {useAppDispatch, useAppSelector} from '../../hooks';
+import {useAppSelector} from '../../hooks/use-app-selector';
+import {useAppDispatch} from '../../hooks/use-app-dispatch';
 import {loginAction} from '../../store/api-actions';
-import {selectAuthStatus, selectError} from '../../store/select';
 import {AuthStatus} from '../../constants/auth-status';
+import {selectAuthStatus, selectError} from '../../store/auth-slice/select';
+import {setError} from '../../store/auth-slice/auth-slice';
+
+const MESSAGE = 'We can’t recognize this email and password combination. Please try again.';
 
 function SignIn(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -16,7 +20,11 @@ function SignIn(): JSX.Element {
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    dispatch(loginAction({login: email, password}));
+    if (!email || !password) {
+      dispatch(setError(MESSAGE));
+    } else {
+      dispatch(loginAction({login: email, password}));
+    }
   };
 
   if (authStatus === AuthStatus.Auth) {
