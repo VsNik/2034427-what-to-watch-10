@@ -1,7 +1,7 @@
 import {Header, Footer} from '../../components';
 import FilmsList from '../../components/films-list/films-list';
-import {useAppSelector} from '../../hooks';
-import {selectFilms} from '../../store/select';
+import {useAppSelector} from '../../hooks/use-app-selector';
+import {selectFilms} from '../../store/films-slice/select';
 
 function FavoriteFilms(): JSX.Element {
   const films = useAppSelector(selectFilms);

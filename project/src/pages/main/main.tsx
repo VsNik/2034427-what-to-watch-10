@@ -1,9 +1,9 @@
 import {useState} from 'react';
 import {Footer, GenreMenu, FilmsList, ShowMoreButton, PromoFilm} from '../../components';
-import {useAppSelector} from '../../hooks';
-import {selectFilterFilms} from '../../store/select';
+import {useAppSelector} from '../../hooks/use-app-selector';
 import {FilmType} from '../../types/film';
 import {DEFAULT_SHOW_FILMS} from '../../constants/common';
+import {selectFilterFilms} from '../../store/films-slice/select';
 
 function Main(): JSX.Element {
   const [showCount, setShowCount] = useState<number>(DEFAULT_SHOW_FILMS);

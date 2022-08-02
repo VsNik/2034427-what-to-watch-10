@@ -4,14 +4,17 @@ import {PrivateRoute} from '../';
 import {RouteName} from '../../constants/route-name';
 import {AuthStatus} from '../../constants/auth-status';
 import {RouteType} from '../../types/route-type';
-import {useAppSelector} from '../../hooks';
-import {selectAuthStatus, selectIsDataLoaded} from '../../store/select';
+import {useAppSelector} from '../../hooks/use-app-selector';
 import Loader from '../loader/loader';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../utils/browser-history';
+import {selectIsLoadedFilms} from '../../store/films-slice/select';
+import {selectIsLoadedPromo} from '../../store/promo-slice/select';
+import {selectAuthStatus} from '../../store/auth-slice/select';
 
 function App(): JSX.Element {
-  const isDataLoaded = useAppSelector(selectIsDataLoaded);
+  const isFilmsLoaded = useAppSelector(selectIsLoadedFilms);
+  const isPromoLoaded = useAppSelector(selectIsLoadedPromo);
   const authStatus = useAppSelector(selectAuthStatus);
   const routes: RouteType[] = [
     {
@@ -56,7 +59,7 @@ function App(): JSX.Element {
     },
   ];
 
-  if (authStatus === AuthStatus.Unknown || isDataLoaded) {
+  if (authStatus === AuthStatus.Unknown || isFilmsLoaded || isPromoLoaded) {
     return <Loader/>;
   }
 

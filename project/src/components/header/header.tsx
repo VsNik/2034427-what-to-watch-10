@@ -2,10 +2,11 @@ import {FormEvent, PropsWithChildren} from 'react';
 import {Link, useMatch} from 'react-router-dom';
 import classNames from 'classnames';
 import {RouteName} from '../../constants/route-name';
-import {useAppDispatch, useAppSelector} from '../../hooks';
-import {selectAuthStatus} from '../../store/select';
+import {useAppSelector} from '../../hooks/use-app-selector';
+import {useAppDispatch} from '../../hooks/use-app-dispatch';
 import {AuthStatus} from '../../constants/auth-status';
 import {logoutAction} from '../../store/api-actions';
+import {selectAuthStatus} from '../../store/auth-slice/select';
 
 type HeaderProps = PropsWithChildren<{
   className?: string;

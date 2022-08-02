@@ -3,17 +3,18 @@ import {Link, useParams} from 'react-router-dom';
 import classNames from 'classnames';
 import {RouteName} from '../../constants/route-name';
 import {getGenreUrl} from '../../utils/route';
-import {useAppDispatch, useAppSelector} from '../../hooks';
-import {selectFilmGenres} from '../../store/select';
-import {changeGenre} from '../../store/actions';
 import {DEFAULT_SHOW_FILMS, MAX_COUNT_GENRES} from '../../constants/common';
+import {selectGenres} from '../../store/films-slice/select';
+import {changeGenre} from '../../store/films-slice/films-slice';
+import {useAppSelector} from '../../hooks/use-app-selector';
+import {useAppDispatch} from '../../hooks/use-app-dispatch';
 
 type GenreMenuProps = {
   changeShowCount: (value: number) => void;
 }
 
 function GenreMenu({changeShowCount}: GenreMenuProps): JSX.Element {
-  const genres = useAppSelector(selectFilmGenres);
+  const genres = useAppSelector(selectGenres);
   const {genreName} = useParams();
   const dispatch = useAppDispatch();
 

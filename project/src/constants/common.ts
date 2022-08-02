@@ -13,3 +13,9 @@ export const MAX_COUNT_SIMILAR_FILMS = 4;
 export const TIMEOUT_SHOW_ERROR = 2000;
 
 export const AUTH_TOKEN_NAME = 'wtw-token';
+
+export enum SliceName {
+  Auth = 'AUTH',
+  Promo = 'PROMO',
+  Films = 'FILMS',
+}
