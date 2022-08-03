@@ -3,7 +3,7 @@ export type ReviewUserType = {
   name: string;
 }
 
-export type ReviewType = {
+export type CommentType = {
   comment: string;
   date: string;
   id: number;
@@ -12,6 +12,7 @@ export type ReviewType = {
 }
 
 export type NewCommentType = {
+  filmId: number,
   comment: string;
   rating: number;
 }

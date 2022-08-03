@@ -1,7 +1,17 @@
 import {RatingSelect} from '../index';
-import {useState} from 'react';
+import {FormEvent, useState} from 'react';
+import {useAppDispatch} from '../../hooks/use-app-dispatch';
+import {sendCommentAction} from '../../store/api-actions';
+import {useAppSelector} from '../../hooks/use-app-selector';
+import {selectIsSendingComment} from '../../store/comments.slice/select';
 
-function CommentForm(): JSX.Element {
+type CommentFormType = {
+  filmId: number;
+}
+
+function CommentForm({filmId}: CommentFormType): JSX.Element {
+  const dispatch = useAppDispatch();
+  const isSending = useAppSelector(selectIsSendingComment);
   const [comment, setComment] = useState<string>('');
   const [rating, setRating] = useState<number>(0);
 
@@ -9,10 +19,15 @@ function CommentForm(): JSX.Element {
     setRating(parseInt(value, 10));
   };
 
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    dispatch(sendCommentAction({filmId, comment, rating}));
+  };
+
   return (
     <div className="add-review">
-      <form action="#" className="add-review__form">
-        <RatingSelect rating={rating} onChangeRating={handleSetRating}/>
+      <form action="#" className="add-review__form" onSubmit={handleSubmit}>
+        <RatingSelect isSending={isSending} onChangeRating={handleSetRating}/>
 
         <div className="add-review__text">
           <textarea
@@ -22,9 +37,15 @@ function CommentForm(): JSX.Element {
             id="review-text"
             onChange={(evt) => setComment(evt.target.value)}
             placeholder="Review text"
+            disabled={isSending}
           />
           <div className="add-review__submit">
-            <button className="add-review__btn">Post</button>
+            <button
+              className="add-review__btn"
+              disabled={isSending}
+            >
+              Post
+            </button>
           </div>
         </div>
       </form>

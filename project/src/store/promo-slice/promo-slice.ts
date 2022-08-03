@@ -2,11 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import {FilmType} from '../../types/film';
 import {SliceName} from '../../constants/common';
 import {fetchPromoFilmAction} from '../api-actions';
-
-type PromoState = {
-  promoFilm: FilmType;
-  isLoaded: boolean;
-}
+import {PromoState} from '../../types/state';
 
 const initialState: PromoState = {
   promoFilm: {} as FilmType,

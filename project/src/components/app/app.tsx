@@ -2,7 +2,7 @@ import {Route, Routes} from 'react-router-dom';
 import {AddReview, Main, Movie, MyList, NotFound, Player, SignIn} from '../../pages';
 import {PrivateRoute} from '../';
 import {RouteName} from '../../constants/route-name';
-import {AuthStatus} from '../../constants/auth-status';
+import {AuthStatus} from '../../constants/common';
 import {RouteType} from '../../types/route-type';
 import {useAppSelector} from '../../hooks/use-app-selector';
 import Loader from '../loader/loader';

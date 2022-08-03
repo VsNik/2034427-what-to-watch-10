@@ -1,24 +1,19 @@
-import {Link, Navigate, useParams} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {Header, Poster, CommentForm} from '../../components';
-import {RouteName} from '../../constants/route-name';
 import {getAddReviewUrl, getFilmUrl} from '../../utils/route';
-import {getFilm} from '../../utils/common';
+import {useAppSelector} from '../../hooks/use-app-selector';
+import {selectFilm} from '../../store/film-slice/select';
 
 function AddReview(): JSX.Element {
-  const params = useParams();
-  const film = getFilm(params.id as string);
+  const film = useAppSelector(selectFilm);
 
-  if (!film) {
-    return <Navigate to={RouteName.NotFound}/>;
-  }
-
-  const {id, name, posterImage} = film;
+  const {id, name, posterImage, backgroundImage} = film;
 
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel"/>
+          <img src={backgroundImage} alt="The Grand Budapest Hotel"/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -53,7 +48,7 @@ function AddReview(): JSX.Element {
         />
       </div>
 
-      <CommentForm/>
+      <CommentForm filmId={film.id}/>
     </section>
   );
 }

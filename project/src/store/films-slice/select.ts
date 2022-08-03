@@ -12,12 +12,10 @@ export const selectIsLoadedFilms = (state: State) => state[SliceName.Films].isLo
 
 export const selectFilterFilms = createSelector(
   [selectFilms, selectActiveGenre],
-  (films, genre) => {
-    if (genre === DEFAULT_GENRE) {
-      return films;
-    }
-    return films.filter((item: FilmType) => item.genre.toLowerCase() === genre);
-  },
+  (films, genre) =>
+    genre === DEFAULT_GENRE
+      ? films
+      : films.filter((item: FilmType) => item.genre.toLowerCase() === genre)
 );
 
 export const selectGenres = createSelector(

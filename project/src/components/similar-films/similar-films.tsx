@@ -1,10 +1,10 @@
 import {FilmsList} from '../index';
 import {useAppSelector} from '../../hooks/use-app-selector';
 import {MAX_COUNT_SIMILAR_FILMS} from '../../constants/common';
-import {selectFilms} from '../../store/films-slice/select';
+import {selectSimilarFilms} from '../../store/film-slice/select';
 
 function SimilarFilms(): JSX.Element {
-  const similarFilms = useAppSelector(selectFilms)
+  const similarFilms = useAppSelector(selectSimilarFilms)
     .slice(0, MAX_COUNT_SIMILAR_FILMS);
 
   return (
