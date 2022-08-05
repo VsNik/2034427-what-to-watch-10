@@ -1,11 +1,28 @@
-import {FilmType} from '../../types/film';
 import {createSlice} from '@reduxjs/toolkit';
 import {SliceName} from '../../constants/common';
 import {fetchFilmAction, fetchSimilarFilmsAction} from '../api-actions';
 import {FilmSlice} from '../../types/state';
 
 const initialState: FilmSlice = {
-  film: {} as FilmType,
+  film: {
+    id: 0,
+    name: '',
+    posterImage: '',
+    previewImage: '',
+    backgroundImage: '',
+    backgroundColor: '',
+    videoLink: '',
+    previewVideoLink: '',
+    description: '',
+    rating: 0,
+    scoresCount: 0,
+    director: '',
+    starring: [],
+    runTime: 0,
+    genre: '',
+    released: 0,
+    isFavorite: false,
+  },
   similarFilms: [],
 };
 

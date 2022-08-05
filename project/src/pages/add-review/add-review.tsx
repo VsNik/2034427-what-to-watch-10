@@ -48,7 +48,7 @@ function AddReview(): JSX.Element {
         />
       </div>
 
-      <CommentForm filmId={film.id}/>
+      <CommentForm filmId={id}/>
     </section>
   );
 }

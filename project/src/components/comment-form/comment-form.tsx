@@ -5,6 +5,8 @@ import {sendCommentAction} from '../../store/api-actions';
 import {useAppSelector} from '../../hooks/use-app-selector';
 import {selectIsSendingComment} from '../../store/comments.slice/select';
 
+const DEFAULT_RATING = 0;
+
 type CommentFormType = {
   filmId: number;
 }
@@ -13,7 +15,7 @@ function CommentForm({filmId}: CommentFormType): JSX.Element {
   const dispatch = useAppDispatch();
   const isSending = useAppSelector(selectIsSendingComment);
   const [comment, setComment] = useState<string>('');
-  const [rating, setRating] = useState<number>(0);
+  const [rating, setRating] = useState<number>(DEFAULT_RATING);
 
   const handleSetRating = (value: string) => {
     setRating(parseInt(value, 10));
