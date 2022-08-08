@@ -1,12 +1,8 @@
 import {FilmType} from '../types/film';
-import {films} from '../mocks/films';
 import {TabName} from '../components/film-card-full/film-card-full';
 
 export const getGenres = (filmList: FilmType[]): string[] =>
   [...new Set(filmList.map((film) => film.genre))];
-
-export const getFilm = (id: string) =>
-  films.find((item) => item.id === parseInt(id, 10));
 
 export const getFilmTab = () => {
   const queryParams = (new URL(document.location.href)).searchParams;

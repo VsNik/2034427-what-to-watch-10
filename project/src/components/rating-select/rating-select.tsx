@@ -1,33 +1,34 @@
 import React from 'react';
 
-const RATING_LENGTH = 10;
+export const MAX_RATING = 10;
 
 type RatingSelectProps = {
-  rating: number;
+  isSending: boolean;
   onChangeRating: (value: string) => void;
 }
 
-function RatingSelect({rating, onChangeRating}: RatingSelectProps): JSX.Element {
+function RatingSelect({isSending, onChangeRating}: RatingSelectProps): JSX.Element {
+
   return (
     <div className="rating">
       <div className="rating__stars">
         {
-          Array.from({length: RATING_LENGTH}, (_, index) => (
+          Array.from({length: MAX_RATING}, (_, index) => (
             <React.Fragment key={`rating-${index}`}>
               <input
+                value={MAX_RATING - index}
                 className="rating__input"
-                id={`star-${RATING_LENGTH - index}`}
+                id={`star-${MAX_RATING - index}`}
                 type="radio"
                 name="rating"
-                value={rating}
                 onChange={(evt) => onChangeRating(evt.target.value)}
-                defaultChecked={RATING_LENGTH - index === 8}
+                disabled={isSending}
               />
               <label
                 className="rating__label"
-                htmlFor={`star-${RATING_LENGTH - index}`}
+                htmlFor={`star-${MAX_RATING - index}`}
               >
-                Rating {RATING_LENGTH - index}
+                Rating {MAX_RATING - index}
               </label>
             </React.Fragment>
           ))

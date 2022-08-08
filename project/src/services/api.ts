@@ -1,6 +1,11 @@
-import axios, {AxiosInstance, AxiosRequestConfig} from 'axios';
+import axios, {AxiosError, AxiosInstance, AxiosRequestConfig} from 'axios';
 import {BACKEND_URL, REQUEST_TIMEOUT} from '../constants/common';
 import {getToken} from './token';
+import {store} from '../store';
+import {redirectToRoute} from '../store/actions';
+import {RouteName} from '../constants/route-name';
+
+const NOT_FOUND = 404;
 
 export const createAPI = (): AxiosInstance => {
   const api = axios.create({
@@ -17,6 +22,16 @@ export const createAPI = (): AxiosInstance => {
 
     return config;
   });
+
+  api.interceptors.response.use(
+    (response) => response,
+    (error: AxiosError) => {
+      if (error.response && error.response.status === NOT_FOUND) {
+        store.dispatch(redirectToRoute(RouteName.NotFound));
+      }
+
+      throw error;
+    });
 
   return api;
 };

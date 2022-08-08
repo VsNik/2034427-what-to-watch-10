@@ -5,9 +5,9 @@ import {RouteName} from '../../constants/route-name';
 import {useAppSelector} from '../../hooks/use-app-selector';
 import {useAppDispatch} from '../../hooks/use-app-dispatch';
 import {loginAction} from '../../store/api-actions';
-import {AuthStatus} from '../../constants/auth-status';
 import {selectAuthStatus, selectError} from '../../store/auth-slice/select';
 import {setError} from '../../store/auth-slice/auth-slice';
+import {AuthStatus} from '../../constants/common';
 
 const MESSAGE = 'We can’t recognize this email and password combination. Please try again.';
 

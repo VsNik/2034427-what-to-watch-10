@@ -1,7 +1,7 @@
-import {Navigate, useParams} from 'react-router-dom';
 import {FilmDetails, FilmMenu, FilmOverview, FilmReviews, Header, Poster, PosterDescription} from '../index';
-import {getFilm, getFilmTab} from '../../utils/common';
-import {RouteName} from '../../constants/route-name';
+import {getFilmTab} from '../../utils/common';
+import {useAppSelector} from '../../hooks/use-app-selector';
+import {selectFilm} from '../../store/film-slice/select';
 
 export enum TabName {
   Overview = 'overview',
@@ -11,12 +11,7 @@ export enum TabName {
 
 function FilmCardFull(): JSX.Element {
   const tab = getFilmTab();
-  const params = useParams();
-  const film = getFilm(params.id as string);
-
-  if (!film) {
-    return <Navigate to={RouteName.NotFound}/>;
-  }
+  const film = useAppSelector(selectFilm);
 
   const {id, name, genre, released, posterImage, backgroundImage} = film;
 

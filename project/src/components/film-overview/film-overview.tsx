@@ -7,12 +7,12 @@ type FilmOverviewProps = {
 function FilmOverview({film}: FilmOverviewProps): JSX.Element {
   const {rating, scoresCount, description, director, starring} = film;
 
-  const starringString = starring.map((item) => item).join(', ');
+  const starringString = starring?.map((item) => item).join(', ');
 
   return (
     <>
       <div className="film-rating">
-        <div className="film-rating__score">{rating.toFixed(1)}</div>
+        <div className="film-rating__score">{rating?.toFixed(1)}</div>
         <p className="film-rating__meta">
           <span className="film-rating__level">Very good</span>
           <span className="film-rating__count">{scoresCount} ratings</span>

@@ -4,9 +4,9 @@ import classNames from 'classnames';
 import {RouteName} from '../../constants/route-name';
 import {useAppSelector} from '../../hooks/use-app-selector';
 import {useAppDispatch} from '../../hooks/use-app-dispatch';
-import {AuthStatus} from '../../constants/auth-status';
 import {logoutAction} from '../../store/api-actions';
-import {selectAuthStatus} from '../../store/auth-slice/select';
+import {selectAuthStatus, selectAvatar} from '../../store/auth-slice/select';
+import {AuthStatus} from '../../constants/common';
 
 type HeaderProps = PropsWithChildren<{
   className?: string;
@@ -15,6 +15,7 @@ type HeaderProps = PropsWithChildren<{
 function Header({className, children}: HeaderProps): JSX.Element {
   const isLoginPath = useMatch(RouteName.SignIn);
   const authStatus = useAppSelector(selectAuthStatus);
+  const avatarUrl = useAppSelector(selectAvatar);
   const dispatch = useAppDispatch();
 
   const handleLogout = (evt: FormEvent) => {
@@ -46,7 +47,7 @@ function Header({className, children}: HeaderProps): JSX.Element {
                       to={RouteName.MyList}
                       className="user-block__avatar"
                     >
-                      <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
+                      <img src={avatarUrl} alt="User avatar" width="63" height="63"/>
                     </Link>
                   </li>
                   <li className="user-block__item">

@@ -1,10 +1,10 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {SliceName} from '../../constants/common';
-import {fetchPromoFilmAction} from '../api-actions';
-import {PromoState} from '../../types/state';
+import {fetchFilmAction, fetchSimilarFilmsAction} from '../api-actions';
+import {FilmSlice} from '../../types/state';
 
-const initialState: PromoState = {
-  promoFilm: {
+const initialState: FilmSlice = {
+  film: {
     id: 0,
     name: '',
     posterImage: '',
@@ -23,21 +23,20 @@ const initialState: PromoState = {
     released: 0,
     isFavorite: false,
   },
-  isLoaded: false,
+  similarFilms: [],
 };
 
-export const promoSlice = createSlice({
-  name: SliceName.Promo,
+export const filmSlice = createSlice({
+  name: SliceName.Film,
   initialState,
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(fetchPromoFilmAction.pending, (state) => {
-        state.isLoaded = true;
+      .addCase(fetchFilmAction.fulfilled, (state, action) => {
+        state.film = action.payload;
       })
-      .addCase(fetchPromoFilmAction.fulfilled, (state, action) => {
-        state.promoFilm = action.payload;
-        state.isLoaded = false;
+      .addCase(fetchSimilarFilmsAction.fulfilled, (state, action) => {
+        state.similarFilms = action.payload;
       });
-  },
+  }
 });

@@ -1,16 +1,10 @@
-import {Link, Navigate, useParams} from 'react-router-dom';
-import {RouteName} from '../../constants/route-name';
-import {getFilm} from '../../utils/common';
+import {Link} from 'react-router-dom';
 import {getFilmUrl} from '../../utils/route';
+import {useAppSelector} from '../../hooks/use-app-selector';
+import {selectFilm} from '../../store/film-slice/select';
 
 function Player(): JSX.Element {
-  const params = useParams();
-  const film = getFilm(params.id as string);
-
-  if (!film) {
-    return <Navigate to={RouteName.NotFound}/>;
-  }
-
+  const film = useAppSelector(selectFilm);
   const {id, previewImage} = film;
 
   return (
