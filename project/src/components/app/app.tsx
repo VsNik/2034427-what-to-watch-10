@@ -1,9 +1,9 @@
 import {Route, Routes} from 'react-router-dom';
 import {AddReview, Main, Movie, MyList, NotFound, Player, SignIn} from '../../pages';
-import {PrivateRoute} from '../';
+import {PrivateRoute, ScrollTop} from '../';
 import {RouteName} from '../../constants/route-name';
 import {AuthStatus} from '../../constants/common';
-import {RouteType} from '../../types/route-type';
+import {RouteType} from '../../types/common';
 import {useAppSelector} from '../../hooks/use-app-selector';
 import Loader from '../loader/loader';
 import HistoryRouter from '../history-route/history-route';
@@ -65,6 +65,7 @@ function App(): JSX.Element {
 
   return (
     <HistoryRouter history={browserHistory}>
+      <ScrollTop />
       <Routes>
         {routes.map((route) => (
           <Route

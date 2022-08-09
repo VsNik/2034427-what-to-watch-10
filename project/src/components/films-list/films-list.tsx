@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {FilmCard} from '../index';
-import {FilmType} from '../../types/film';
+import {FilmType} from '../../types/common';
 
 type FilmsListProps = {
   films: FilmType[];

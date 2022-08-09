@@ -1,9 +1,10 @@
+import {Spinner} from '../';
 import './loader.css';
 
 function Loader(): JSX.Element {
   return (
     <div className="loader">
-      <div className="spinner"/>
+      <Spinner/>
     </div>
   );
 }

@@ -1,9 +1,9 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {SliceName} from '../../constants/common';
-import {fetchPromoFilmAction} from '../api-actions';
-import {PromoState} from '../../types/state';
+import {addToFavorite, fetchPromoFilmAction} from '../api-actions';
+import {PromoSlice} from '../../types/state';
 
-const initialState: PromoState = {
+const initialState: PromoSlice = {
   promoFilm: {
     id: 0,
     name: '',
@@ -38,6 +38,11 @@ export const promoSlice = createSlice({
       .addCase(fetchPromoFilmAction.fulfilled, (state, action) => {
         state.promoFilm = action.payload;
         state.isLoaded = false;
+      })
+      .addCase(addToFavorite.fulfilled, (state, action) => {
+        if (state.promoFilm.id === action.payload.id) {
+          state.promoFilm = action.payload;
+        }
       });
   },
 });

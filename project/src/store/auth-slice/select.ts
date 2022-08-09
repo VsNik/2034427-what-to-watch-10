@@ -6,3 +6,5 @@ export const selectAuthStatus = (state: State) => state[SliceName.Auth].authStat
 export const selectAvatar = (state: State) => state[SliceName.Auth].avatar;
 
 export const selectError = (state: State) => state[SliceName.Auth].error;
+
+export const selectIsLoginSending = (state: State) => state[SliceName.Auth].isSending;

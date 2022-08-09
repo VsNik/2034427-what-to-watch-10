@@ -1,10 +1,10 @@
 import {Link} from 'react-router-dom';
 import classNames from 'classnames';
-import {getFilmTab} from '../../utils/common';
-import {TabName} from '../film-card-full/film-card-full';
+import {TabName} from '../../constants/common';
+import {useFilmTab} from '../../hooks/use-film-tab';
 
 function FilmMenu(): JSX.Element {
-  const tab = getFilmTab();
+  const tab = useFilmTab();
 
   return (
     <nav className="film-nav film-card__nav">

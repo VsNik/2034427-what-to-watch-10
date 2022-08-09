@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {Footer, GenreMenu, FilmsList, ShowMoreButton, PromoFilm} from '../../components';
 import {useAppSelector} from '../../hooks/use-app-selector';
-import {FilmType} from '../../types/film';
+import {FilmType} from '../../types/common';
 import {DEFAULT_SHOW_FILMS} from '../../constants/common';
 import {selectFilterFilms} from '../../store/films-slice/select';
 

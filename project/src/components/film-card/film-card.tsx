@@ -1,10 +1,9 @@
 import {useEffect, useRef} from 'react';
 import {Link} from 'react-router-dom';
 import classNames from 'classnames';
-import {FilmType} from '../../types/film';
+import {FilmType} from '../../types/common';
 import {getFilmUrl} from '../../utils/route';
-
-const PLAY_TIMEOUT = 1000;
+import {PREVIEW_PLAY_TIMEOUT} from '../../constants/common';
 
 type FilmCardProps = {
   film: FilmType;
@@ -24,7 +23,7 @@ function FilmCard(props: FilmCardProps): JSX.Element {
         videoRef.current?.play();
       }
     },
-    PLAY_TIMEOUT
+    PREVIEW_PLAY_TIMEOUT
     );
 
     if (activeCard !== id) {

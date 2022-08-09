@@ -1,7 +1,6 @@
 import {store} from '../store';
 import {rootReducer} from '../store/root-reducer';
-import {CommentType} from './reviews';
-import {FilmType} from './film';
+import {FilmType, CommentType} from './common';
 import {AuthStatus} from '../constants/common';
 
 export type Reducer = ReturnType<typeof rootReducer>;
@@ -13,27 +12,35 @@ export type AppDispatch = typeof store.dispatch;
 export type AuthSlice = {
   authStatus: AuthStatus;
   avatar: string;
+  isSending: boolean;
   error: string;
 };
 
 export type CommentsSlice = {
   comments: CommentType[];
   isSending: boolean;
+  error: string;
 }
 
 export type FilmSlice = {
   film: FilmType;
   similarFilms: FilmType[];
+  isLoaded: boolean;
 }
 
-export type FilmsState = {
+export type FilmsSlice = {
   genre: string;
   films: FilmType[];
   isLoaded: boolean;
 }
 
-export type PromoState = {
+export type PromoSlice = {
   promoFilm: FilmType;
+  isLoaded: boolean;
+}
+
+export type FavoriteSlice = {
+  favorites: FilmType[];
   isLoaded: boolean;
 }
 

@@ -1,11 +1,21 @@
 import axios, {AxiosError, AxiosInstance, AxiosRequestConfig} from 'axios';
-import {BACKEND_URL, REQUEST_TIMEOUT} from '../constants/common';
+import {Store} from '@reduxjs/toolkit';
+import {toast} from 'react-toastify';
+import {BACKEND_URL, REQUEST_TIMEOUT, ErrorMessage} from '../constants/common';
 import {getToken} from './token';
-import {store} from '../store';
 import {redirectToRoute} from '../store/actions';
 import {RouteName} from '../constants/route-name';
 
-const NOT_FOUND = 404;
+let store: Store;
+
+export const injectStore = (_store: Store) => {
+  store = _store;
+};
+
+enum ErrorCode {
+  NotFound = 404,
+  ServerError = 500,
+}
 
 export const createAPI = (): AxiosInstance => {
   const api = axios.create({
@@ -26,8 +36,12 @@ export const createAPI = (): AxiosInstance => {
   api.interceptors.response.use(
     (response) => response,
     (error: AxiosError) => {
-      if (error.response && error.response.status === NOT_FOUND) {
+      if (error.response && error.response.status === ErrorCode.NotFound) {
         store.dispatch(redirectToRoute(RouteName.NotFound));
+      }
+
+      if (error.response && error.response.status >= ErrorCode.ServerError) {
+        toast.error(ErrorMessage.ServerError);
       }
 
       throw error;
