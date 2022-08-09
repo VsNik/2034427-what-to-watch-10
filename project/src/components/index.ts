@@ -18,3 +18,5 @@ export {default as PromoFilm} from './promo-film/promo-film';
 export {default as FilmCardFull} from './film-card-full/film-card-full';
 export {default as SimilarFilms} from './similar-films/similar-films';
 export {default as Review} from './review/review';
+export {default as ScrollTop} from './scroll-top/scroll-top';
+export {default as Spinner} from './spinner/spinner';

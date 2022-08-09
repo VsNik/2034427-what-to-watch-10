@@ -6,6 +6,7 @@ import {AuthSlice} from '../../types/state';
 const initialState: AuthSlice = {
   authStatus: AuthStatus.Unknown,
   avatar: '',
+  isSending: false,
   error: '',
 };
 
@@ -29,14 +30,19 @@ export const authSlice = createSlice({
         state.avatar = '';
         state.error = '';
       })
+      .addCase(loginAction.pending, (state) => {
+        state.isSending = true;
+      })
       .addCase(loginAction.fulfilled, (state, action) => {
         state.authStatus = AuthStatus.Auth;
         state.avatar = action.payload;
+        state.isSending = false;
         state.error = '';
       })
       .addCase(loginAction.rejected, (state, action: AnyAction) => {
         state.authStatus = AuthStatus.NoAuth;
         state.avatar = '';
+        state.isSending = false;
         state.error = action.payload;
       })
       .addCase(logoutAction.fulfilled, (state) => {

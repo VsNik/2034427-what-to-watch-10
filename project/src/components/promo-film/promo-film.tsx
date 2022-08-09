@@ -4,7 +4,7 @@ import {selectPromoFilm} from '../../store/promo-slice/select';
 
 function PromoFilm() {
   const promoFilm = useAppSelector(selectPromoFilm);
-  const {id, name, genre, released, posterImage, backgroundImage} = promoFilm;
+  const {id, name, genre, released, posterImage, backgroundImage, isFavorite} = promoFilm;
 
   return (
     <section className="film-card">
@@ -25,6 +25,7 @@ function PromoFilm() {
             name={name}
             genre={genre}
             releaseDate={released}
+            isFavorite={isFavorite}
           />
         </div>
       </div>

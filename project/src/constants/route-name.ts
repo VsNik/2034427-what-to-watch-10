@@ -18,5 +18,14 @@ export const RouteName = {
     path: '/films/:id/review',
     name: 'films'
   },
-  NotFound:  '*',
+  NotFound: '*',
 };
+
+export enum APIRoute {
+  Films = '/films',
+  Promo = '/promo',
+  Login = '/login',
+  Logout = '/logout',
+  Favorite = '/favorite',
+  Comments = '/comments',
+}

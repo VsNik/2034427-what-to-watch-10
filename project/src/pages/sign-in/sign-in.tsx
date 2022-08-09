@@ -5,23 +5,25 @@ import {RouteName} from '../../constants/route-name';
 import {useAppSelector} from '../../hooks/use-app-selector';
 import {useAppDispatch} from '../../hooks/use-app-dispatch';
 import {loginAction} from '../../store/api-actions';
-import {selectAuthStatus, selectError} from '../../store/auth-slice/select';
+import {selectAuthStatus, selectError, selectIsLoginSending} from '../../store/auth-slice/select';
 import {setError} from '../../store/auth-slice/auth-slice';
 import {AuthStatus} from '../../constants/common';
-
-const MESSAGE = 'We can’t recognize this email and password combination. Please try again.';
+import {signInValidator} from '../../utils/validator';
 
 function SignIn(): JSX.Element {
   const dispatch = useAppDispatch();
   const authStatus = useAppSelector(selectAuthStatus);
+  const isSending = useAppSelector(selectIsLoginSending);
   const error = useAppSelector(selectError);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    if (!email || !password) {
-      dispatch(setError(MESSAGE));
+    const validError = signInValidator(email, password);
+
+    if (validError) {
+      dispatch(setError(validError));
     } else {
       dispatch(loginAction({login: email, password}));
     }
@@ -50,12 +52,13 @@ function SignIn(): JSX.Element {
             <div className="sign-in__field">
               <input
                 className="sign-in__input"
-                type="email"
+                type="text"
                 placeholder="Email address"
                 name="user-email"
                 id="user-email"
                 value={email}
                 onChange={(evt) => setEmail(evt.target.value)}
+                disabled={isSending}
               />
               <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
             </div>
@@ -68,12 +71,23 @@ function SignIn(): JSX.Element {
                 id="user-password"
                 value={password}
                 onChange={(evt) => setPassword(evt.target.value)}
+                disabled={isSending}
               />
               <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
             </div>
           </div>
           <div className="sign-in__submit">
-            <button className="sign-in__btn" type="submit">Sign in</button>
+            <button
+              className="sign-in__btn"
+              type="submit"
+              disabled={isSending}
+            >
+              {
+                !isSending
+                  ? 'Sign In'
+                  : 'Sending...'
+              }
+            </button>
           </div>
         </form>
       </div>

@@ -1,8 +1,7 @@
 import {createSelector} from '@reduxjs/toolkit';
 import {State} from '../../types/state';
 import {DEFAULT_GENRE, SliceName} from '../../constants/common';
-import {FilmType} from '../../types/film';
-import {getGenres} from '../../utils/common';
+import {FilmType} from '../../types/common';
 
 export const selectActiveGenre = (state: State) => state[SliceName.Films].genre;
 
@@ -20,5 +19,10 @@ export const selectFilterFilms = createSelector(
 
 export const selectGenres = createSelector(
   selectFilms,
-  (films) => getGenres(films),
+  (films) => [...new Set(films.map((film) => film.genre))],
+);
+
+export const selectFavoritesCount = createSelector(
+  selectFilms,
+  (films) => films.filter((item) => item.isFavorite).length,
 );

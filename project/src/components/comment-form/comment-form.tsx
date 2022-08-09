@@ -1,11 +1,11 @@
-import {RatingSelect} from '../index';
 import {FormEvent, useState} from 'react';
+import {RatingSelect} from '../index';
 import {useAppDispatch} from '../../hooks/use-app-dispatch';
 import {sendCommentAction} from '../../store/api-actions';
 import {useAppSelector} from '../../hooks/use-app-selector';
-import {selectIsSendingComment} from '../../store/comments.slice/select';
-
-const DEFAULT_RATING = 0;
+import {selectCommentError, selectIsSendingComment} from '../../store/comments.slice/select';
+import {useValidComment} from '../../hooks/use-valid-comment';
+import {DEFAULT_RATING} from '../../constants/common';
 
 type CommentFormType = {
   filmId: number;
@@ -13,9 +13,11 @@ type CommentFormType = {
 
 function CommentForm({filmId}: CommentFormType): JSX.Element {
   const dispatch = useAppDispatch();
-  const isSending = useAppSelector(selectIsSendingComment);
   const [comment, setComment] = useState<string>('');
   const [rating, setRating] = useState<number>(DEFAULT_RATING);
+  const isSending = useAppSelector(selectIsSendingComment);
+  const error = useAppSelector(selectCommentError);
+  const isValidForm = useValidComment(comment, rating);
 
   const handleSetRating = (value: string) => {
     setRating(parseInt(value, 10));
@@ -29,6 +31,13 @@ function CommentForm({filmId}: CommentFormType): JSX.Element {
   return (
     <div className="add-review">
       <form action="#" className="add-review__form" onSubmit={handleSubmit}>
+        {
+          error &&
+          <div className="add-review__message">
+            <p>{error}</p>
+          </div>
+        }
+
         <RatingSelect isSending={isSending} onChangeRating={handleSetRating}/>
 
         <div className="add-review__text">
@@ -44,7 +53,7 @@ function CommentForm({filmId}: CommentFormType): JSX.Element {
           <div className="add-review__submit">
             <button
               className="add-review__btn"
-              disabled={isSending}
+              disabled={isSending || !isValidForm}
             >
               Post
             </button>

@@ -5,29 +5,3 @@
   height: 100vh;
   background-color: #0c0101;
 }
-
-.spinner {
-  width: 80px;
-  height: 80px;
-}
-
-.spinner:after {
-  content: " ";
-  display: block;
-  width: 64px;
-  height: 64px;
-  margin: 8px;
-  border-radius: 50%;
-  border: 6px solid #c9b37e;
-  border-color: #c9b37e transparent #c9b37e transparent;
-  animation: spinner .9s linear infinite;
-}
-
-@keyframes spinner {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}

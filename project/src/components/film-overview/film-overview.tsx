@@ -1,4 +1,5 @@
-import {FilmType} from '../../types/film';
+import {FilmType} from '../../types/common';
+import {getRatingName} from '../../utils/common';
 
 type FilmOverviewProps = {
   film: FilmType;
@@ -7,6 +8,7 @@ type FilmOverviewProps = {
 function FilmOverview({film}: FilmOverviewProps): JSX.Element {
   const {rating, scoresCount, description, director, starring} = film;
 
+  const ratingName = getRatingName(rating);
   const starringString = starring?.map((item) => item).join(', ');
 
   return (
@@ -14,7 +16,7 @@ function FilmOverview({film}: FilmOverviewProps): JSX.Element {
       <div className="film-rating">
         <div className="film-rating__score">{rating?.toFixed(1)}</div>
         <p className="film-rating__meta">
-          <span className="film-rating__level">Very good</span>
+          <span className="film-rating__level">{ratingName}</span>
           <span className="film-rating__count">{scoresCount} ratings</span>
         </p>
       </div>

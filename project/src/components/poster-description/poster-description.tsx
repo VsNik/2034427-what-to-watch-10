@@ -4,18 +4,29 @@ import {getAddReviewUrl, getPlayerUrl} from '../../utils/route';
 import {useAppSelector} from '../../hooks/use-app-selector';
 import {selectAuthStatus} from '../../store/auth-slice/select';
 import {AuthStatus} from '../../constants/common';
+import {useAppDispatch} from '../../hooks/use-app-dispatch';
+import {selectFavoritesCount} from '../../store/films-slice/select';
+import {addToFavorite} from '../../store/api-actions';
 
 type PosterDescriptionProps = {
   id: number;
   name: string;
   genre: string;
   releaseDate: number;
+  isFavorite: boolean;
 }
 
 function PosterDescription(props: PosterDescriptionProps): JSX.Element {
-  const {id, name, genre, releaseDate} = props;
+  const {id, name, genre, releaseDate, isFavorite} = props;
+  const dispatch = useAppDispatch();
   const isFilmPath = useMatch(RouteName.Film);
   const isAuthStatus = useAppSelector(selectAuthStatus);
+  const favoriteCount = useAppSelector(selectFavoritesCount);
+
+  const handleAddToFavorite = () => {
+    const status = +!isFavorite;
+    dispatch(addToFavorite({id, status}));
+  };
 
   return (
     <div className="film-card__desc">
@@ -42,12 +53,17 @@ function PosterDescription(props: PosterDescriptionProps): JSX.Element {
           <button
             className="btn btn--list film-card__button"
             type="button"
+            onClick={handleAddToFavorite}
           >
             <svg viewBox="0 0 19 20" width="19" height="20">
-              <use xlinkHref="#add"/>
+              {
+                isFavorite
+                  ? <use xlinkHref="#in-list"/>
+                  : <use xlinkHref="#add"/>
+              }
             </svg>
             <span>My list</span>
-            <span className="film-card__count">9</span>
+            <span className="film-card__count">{favoriteCount}</span>
           </button>
         }
 

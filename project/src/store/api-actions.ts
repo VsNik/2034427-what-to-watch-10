@@ -1,15 +1,13 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AxiosError, AxiosInstance} from 'axios';
 import {AppDispatch} from '../types/state';
-import {FilmType} from '../types/film';
-import {AuthData} from '../types/auth-data';
-import {UserData} from '../types/user-data';
+import {FilmType} from '../types/common';
 import {dropToken, saveToken} from '../services/token';
 import {redirectToRoute} from './actions';
-import {RouteName} from '../constants/route-name';
-import {CommentType, NewCommentType} from '../types/reviews';
-import {TabName} from '../components/film-card-full/film-card-full';
-import {APIRoute} from '../constants/common';
+import {APIRoute, RouteName} from '../constants/route-name';
+import {CommentType, NewCommentType} from '../types/common';
+import {TabName} from '../constants/common';
+import {AuthData, UserData} from '../types/common';
 
 export const fetchFilmsAction = createAsyncThunk<FilmType[], undefined, {
   extra: AxiosInstance
@@ -53,7 +51,7 @@ export const loginAction = createAsyncThunk<string, AuthData, {
       dispatch(redirectToRoute(RouteName.Main));
       return data.avatarUrl;
     } catch (err) {
-      const error = err as AxiosError<{error: string}>;
+      const error = err as AxiosError<{ error: string }>;
       return rejectWithValue(error.response?.data.error);
     }
   }
@@ -104,9 +102,34 @@ export const sendCommentAction = createAsyncThunk<CommentType[], NewCommentType,
   extra: AxiosInstance,
 }>(
   'film/sendComment',
-  async ({filmId, comment, rating}, {dispatch, extra: api}) => {
-    const {data} = await api.post<CommentType[]>(`${APIRoute.Comments}/${filmId}`, {comment, rating});
-    dispatch(redirectToRoute(`${RouteName.Film.name}/${filmId}?tab=${TabName.Reviews}`));
+  async ({filmId, comment, rating}, {dispatch, extra: api, rejectWithValue}) => {
+    try {
+      const {data} = await api.post<CommentType[]>(`${APIRoute.Comments}/${filmId}`, {comment, rating});
+      dispatch(redirectToRoute(`${RouteName.Film.name}/${filmId}?tab=${TabName.Reviews}`));
+      return data;
+    } catch (err) {
+      const error = err as AxiosError<{ error: string }>;
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const fetchFavorites = createAsyncThunk<FilmType[], undefined, {
+  extra: AxiosInstance,
+}>(
+  'favorite/fetchFavorites',
+  async (_args, {extra: api}) => {
+    const {data} = await api.get<FilmType[]>(APIRoute.Favorite);
+    return data;
+  }
+);
+
+export const addToFavorite = createAsyncThunk<FilmType, { id: number, status: number }, {
+  extra: AxiosInstance
+}>(
+  'favorite/addToFavorite',
+  async ({id, status}, {extra: api}) => {
+    const {data} = await api.post<FilmType>(`${APIRoute.Favorite}/${id}/${status}`);
     return data;
   }
 );

@@ -1149,7 +1149,8 @@ main {
   padding-bottom: 20px;
   padding-right: 75px;
   position: relative;
-  margin-bottom: 10px; }
+  margin-bottom: 10px;
+  max-width: 380px}
 
 .review__quote {
   margin: 0;

@@ -1,19 +1,14 @@
 import {FilmDetails, FilmMenu, FilmOverview, FilmReviews, Header, Poster, PosterDescription} from '../index';
-import {getFilmTab} from '../../utils/common';
 import {useAppSelector} from '../../hooks/use-app-selector';
 import {selectFilm} from '../../store/film-slice/select';
-
-export enum TabName {
-  Overview = 'overview',
-  Details = 'details',
-  Reviews = 'reviews',
-}
+import {TabName} from '../../constants/common';
+import {useFilmTab} from '../../hooks/use-film-tab';
 
 function FilmCardFull(): JSX.Element {
-  const tab = getFilmTab();
+  const tab = useFilmTab();
   const film = useAppSelector(selectFilm);
 
-  const {id, name, genre, released, posterImage, backgroundImage} = film;
+  const {id, name, genre, released, posterImage, backgroundImage, isFavorite} = film;
 
   return (
     <section className="film-card film-card--full">
@@ -27,7 +22,13 @@ function FilmCardFull(): JSX.Element {
         <Header className="film-card__head"/>
 
         <div className="film-card__wrap">
-          <PosterDescription id={id} name={name} genre={genre} releaseDate={released}/>
+          <PosterDescription
+            id={id}
+            name={name}
+            genre={genre}
+            releaseDate={released}
+            isFavorite={isFavorite}
+          />
         </div>
       </div>
 

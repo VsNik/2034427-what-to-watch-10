@@ -1,4 +1,5 @@
-import {CommentType} from '../../types/reviews';
+import {CommentType} from '../../types/common';
+import {formattingCommentDate} from '../../utils/common';
 
 type ReviewProps = {
   review: CommentType;
@@ -6,6 +7,7 @@ type ReviewProps = {
 
 function Review({review}: ReviewProps): JSX.Element {
   const {comment, rating, date, user} = review;
+  const commentDate = formattingCommentDate(date);
 
   return (
     <div className="review">
@@ -14,7 +16,7 @@ function Review({review}: ReviewProps): JSX.Element {
 
         <footer className="review__details">
           <cite className="review__author">{user.name}</cite>
-          <time className="review__date" dateTime="2015-11-18">{date}</time>
+          <time className="review__date" dateTime={date}>{commentDate}</time>
         </footer>
       </blockquote>
 
