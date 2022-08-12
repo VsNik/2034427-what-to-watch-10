@@ -47,17 +47,22 @@ function Header({className, children}: HeaderProps): JSX.Element {
                       to={RouteName.MyList}
                       className="user-block__avatar"
                     >
-                      <img src={avatarUrl} alt="User avatar" width="63" height="63"/>
+                      <img
+                        src={avatarUrl}
+                        alt="User avatar"
+                        width="63"
+                        height="63"
+                        data-testid="avatar-img"
+                      />
                     </Link>
                   </li>
                   <li className="user-block__item">
-                    <Link
-                      to={RouteName.Main}
+                    <div
                       className="user-block__link"
                       onClick={handleLogout}
                     >
                       Sign out
-                    </Link>
+                    </div>
                   </li>
                 </>
               )

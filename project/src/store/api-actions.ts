@@ -114,7 +114,7 @@ export const sendCommentAction = createAsyncThunk<CommentType[], NewCommentType,
   }
 );
 
-export const fetchFavorites = createAsyncThunk<FilmType[], undefined, {
+export const fetchFavoritesAction = createAsyncThunk<FilmType[], undefined, {
   extra: AxiosInstance,
 }>(
   'favorite/fetchFavorites',
@@ -124,7 +124,7 @@ export const fetchFavorites = createAsyncThunk<FilmType[], undefined, {
   }
 );
 
-export const addToFavorite = createAsyncThunk<FilmType, { id: number, status: number }, {
+export const addToFavoriteAction = createAsyncThunk<FilmType, { id: number, status: number }, {
   extra: AxiosInstance
 }>(
   'favorite/addToFavorite',

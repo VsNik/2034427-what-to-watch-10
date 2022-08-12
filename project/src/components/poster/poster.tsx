@@ -16,6 +16,7 @@ function Poster(props: FilmPosterProps): JSX.Element {
         alt={posterTitle}
         width="218"
         height="327"
+        data-testid="poster-img"
       />
     </div>
   );

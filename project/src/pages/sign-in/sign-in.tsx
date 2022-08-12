@@ -56,6 +56,7 @@ function SignIn(): JSX.Element {
                 placeholder="Email address"
                 name="user-email"
                 id="user-email"
+                data-testid="user-email"
                 value={email}
                 onChange={(evt) => setEmail(evt.target.value)}
                 disabled={isSending}
@@ -69,6 +70,7 @@ function SignIn(): JSX.Element {
                 placeholder="Password"
                 name="user-password"
                 id="user-password"
+                data-testid="user-password"
                 value={password}
                 onChange={(evt) => setPassword(evt.target.value)}
                 disabled={isSending}

@@ -6,7 +6,7 @@ import {selectAuthStatus} from '../../store/auth-slice/select';
 import {AuthStatus} from '../../constants/common';
 import {useAppDispatch} from '../../hooks/use-app-dispatch';
 import {selectFavoritesCount} from '../../store/films-slice/select';
-import {addToFavorite} from '../../store/api-actions';
+import {addToFavoriteAction} from '../../store/api-actions';
 
 type PosterDescriptionProps = {
   id: number;
@@ -25,7 +25,7 @@ function PosterDescription(props: PosterDescriptionProps): JSX.Element {
 
   const handleAddToFavorite = () => {
     const status = +!isFavorite;
-    dispatch(addToFavorite({id, status}));
+    dispatch(addToFavoriteAction({id, status}));
   };
 
   return (

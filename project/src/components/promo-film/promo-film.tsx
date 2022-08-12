@@ -9,7 +9,11 @@ function PromoFilm() {
   return (
     <section className="film-card">
       <div className="film-card__bg">
-        <img src={backgroundImage} alt={name}/>
+        <img
+          src={backgroundImage}
+          alt={name}
+          data-testid="bg-promo-img"
+        />
       </div>
 
       <h1 className="visually-hidden">WTW</h1>

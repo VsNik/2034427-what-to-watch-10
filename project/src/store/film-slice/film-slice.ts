@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {SliceName} from '../../constants/common';
-import {addToFavorite, fetchFilmAction, fetchSimilarFilmsAction} from '../api-actions';
+import {addToFavoriteAction, fetchFilmAction, fetchSimilarFilmsAction} from '../api-actions';
 import {FilmSlice} from '../../types/state';
 
 const initialState: FilmSlice = {
@@ -43,7 +43,7 @@ export const filmSlice = createSlice({
       .addCase(fetchSimilarFilmsAction.fulfilled, (state, action) => {
         state.similarFilms = action.payload;
       })
-      .addCase(addToFavorite.fulfilled, (state, action) => {
+      .addCase(addToFavoriteAction.fulfilled, (state, action) => {
         if (state.film.id === action.payload.id) {
           state.film = action.payload;
         }

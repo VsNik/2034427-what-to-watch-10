@@ -14,7 +14,7 @@ function FilmCardFull(): JSX.Element {
     <section className="film-card film-card--full">
       <div className="film-card__hero">
         <div className="film-card__bg">
-          <img src={backgroundImage} alt="The Grand Budapest Hotel"/>
+          <img src={backgroundImage} alt={name} data-testid="bg-img"/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -36,7 +36,7 @@ function FilmCardFull(): JSX.Element {
         <div className="film-card__info">
           <Poster
             posterSrc={posterImage}
-            posterTitle="The Grand Budapest Hotel poster"
+            posterTitle={name}
             className="film-card__poster--big"
           />
 

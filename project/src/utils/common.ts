@@ -34,11 +34,9 @@ const RatingName = [
     max: 10,
     name: 'Very Good',
   },
-  {
-    min: 10,
-    name: 'Awesome',
-  }
 ];
+
+const AWESOME_NAME = 'Awesome';
 
 enum TimeMetric {
   Second = 'seconds',
@@ -65,12 +63,10 @@ export const formattingLastTime = (runtime: number) => {
 
 export const getRatingName = (rating: number) => {
   for (const item of RatingName) {
-    if (!item.max) {
-      return item.name;
-    }
-
     if (rating >= item.min && rating < item.max) {
       return item.name;
     }
   }
+
+  return AWESOME_NAME;
 };
