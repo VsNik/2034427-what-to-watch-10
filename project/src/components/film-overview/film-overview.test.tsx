@@ -8,7 +8,7 @@ describe('Component: FilmOverview', () => {
     const mockFilm = makeFakeFilm();
     const rating = mockFilm.rating.toFixed(1);
     const ratingName = getRatingName(mockFilm.rating);
-    const starringString = mockFilm.starring?.map((item) => item).join(', ');
+    const starringString = mockFilm.starring.map((item) => item).join(', ');
 
     render (
       <FilmOverview film={mockFilm} />

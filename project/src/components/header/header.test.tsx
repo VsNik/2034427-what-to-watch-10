@@ -7,6 +7,8 @@ import {AuthStatus} from '../../constants/common';
 import HistoryRouter from '../history-route/history-route';
 import Header from './header';
 import {Route, Routes} from 'react-router-dom';
+import {RouteName} from '../../constants/route-name';
+import {MOCK_AVATAR} from '../../utils/mocks';
 
 const mockStore = configureMockStore();
 const history = createMemoryHistory();
@@ -29,7 +31,7 @@ describe('Component: Header', () => {
   });
 
   it('should redirect to /login url when user clicked to Sign in', async () => {
-    history.push('/');
+    history.push(RouteName.Main);
     const store = mockStore({
       AUTH: {authStatus: AuthStatus.NoAuth},
     });
@@ -39,11 +41,11 @@ describe('Component: Header', () => {
         <HistoryRouter history={history}>
           <Routes>
             <Route
-              path="/"
+              path={RouteName.Main}
               element={<Header/>}
             />
             <Route
-              path="/login"
+              path={RouteName.SignIn}
               element={<h1>This is Log in page</h1>}
             />
           </Routes>
@@ -59,9 +61,9 @@ describe('Component: Header', () => {
   });
 
   it('should render correctly if user is authorized',() => {
-    history.push('/');
+    history.push(RouteName.Main);
     const store = mockStore({
-      AUTH: {authStatus: AuthStatus.Auth},
+      AUTH: {authStatus: AuthStatus.Auth, avatar: MOCK_AVATAR},
     });
 
     render(
@@ -72,7 +74,7 @@ describe('Component: Header', () => {
       </Provider>
     );
 
-    expect(screen.getByTestId('avatar-img')).toHaveAttribute('alt', 'User avatar');
+    expect(screen.getByTestId('avatar-img')).toHaveAttribute('src', MOCK_AVATAR);
     expect(screen.getByText(/Sign out/i)).toBeInTheDocument();
   });
 });

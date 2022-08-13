@@ -1,6 +1,6 @@
 import {render, screen} from '@testing-library/react';
-import Footer from './footer';
 import {createMemoryHistory} from 'history';
+import Footer from './footer';
 import HistoryRouter from '../history-route/history-route';
 
 describe('Component Footer', () => {

@@ -1,6 +1,6 @@
 import {CommentsSlice} from '../../types/state';
 import {commentsSlice} from './comments.slice';
-import {makeFakeComments} from '../../utils/mocks';
+import {makeFakeComments, MOCK_ERROR, UNKNOWN_ACTION} from '../../utils/mocks';
 import {fetchCommentsAction, sendCommentAction} from '../api-actions';
 
 const comments = makeFakeComments();
@@ -17,7 +17,7 @@ describe('Slice comments' , () => {
   });
 
   it('without additional parameters should return initial state', () => {
-    expect(commentsSlice.reducer(undefined, {type: 'UNKNOWN_ACTION'}))
+    expect(commentsSlice.reducer(undefined, {type: UNKNOWN_ACTION}))
       .toEqual({comments: [], isSending: false, error: ''});
   });
 
@@ -40,10 +40,8 @@ describe('Slice comments' , () => {
     });
 
     it('should update error message if sendCommentAction rejected', () => {
-      const error = 'dummy error';
-
-      expect(commentsSlice.reducer(state, {type: sendCommentAction.rejected.type, payload: error}))
-        .toEqual({comments: [], isSending: false, error});
+      expect(commentsSlice.reducer(state, {type: sendCommentAction.rejected.type, payload: MOCK_ERROR}))
+        .toEqual({comments: [], isSending: false, error: MOCK_ERROR});
     });
   });
 });

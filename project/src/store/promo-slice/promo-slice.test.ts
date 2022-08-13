@@ -1,5 +1,5 @@
 import {PromoSlice} from '../../types/state';
-import {makeDefaultFilm, makeFakeFilms} from '../../utils/mocks';
+import {makeDefaultFilm, makeFakeFilms, MOCK_ID, UNKNOWN_ACTION} from '../../utils/mocks';
 import {promoSlice} from './promo-slice';
 import {addToFavoriteAction, fetchPromoFilmAction} from '../api-actions';
 
@@ -15,7 +15,7 @@ describe('Promo slice', () => {
   });
 
   it('without additional parameters should return initial state',() => {
-    expect(promoSlice.reducer(undefined, {type: 'UNKNOWN_ACTION'}))
+    expect(promoSlice.reducer(undefined, {type: UNKNOWN_ACTION}))
       .toEqual({promoFilm: defaultFilm, isLoaded: false,});
   });
 
@@ -37,7 +37,7 @@ describe('Promo slice', () => {
     it('should update isFavorite if addToFavoriteAction fulfilled, and equals id',() => {
       const noFavoriteFilm = makeDefaultFilm();
       const favoriteFilm = {...noFavoriteFilm, isFavorite: true};
-      const favoriteFilmNoEqualId = {...favoriteFilm, id: 1};
+      const favoriteFilmNoEqualId = {...favoriteFilm, id: MOCK_ID};
 
       expect(promoSlice.reducer(state, {type: addToFavoriteAction.fulfilled.type, payload: favoriteFilmNoEqualId}))
         .toEqual({promoFilm: defaultFilm, isLoaded: false});

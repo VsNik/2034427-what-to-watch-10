@@ -1,7 +1,7 @@
 import {FavoriteSlice} from '../../types/state';
 import {favoriteSlice} from './favorite-slice';
 import {fetchFavoritesAction} from '../api-actions';
-import {makeFakeFilms} from '../../utils/mocks';
+import {makeFakeFilms, UNKNOWN_ACTION} from '../../utils/mocks';
 
 describe('Slice favorite', () => {
   let state: FavoriteSlice;
@@ -14,7 +14,7 @@ describe('Slice favorite', () => {
   });
 
   it('without additional parameters should return initial state', () => {
-    expect(favoriteSlice.reducer(undefined, {type: 'UNKNOWN_ACTION'}))
+    expect(favoriteSlice.reducer(undefined, {type: UNKNOWN_ACTION}))
       .toEqual({favorites: [], isLoaded: false});
   });
 

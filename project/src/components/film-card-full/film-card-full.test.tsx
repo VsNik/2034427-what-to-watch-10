@@ -1,9 +1,9 @@
 import {configureMockStore} from '@jedmao/redux-mock-store';
+import {Provider} from 'react-redux';
 import {createMemoryHistory} from 'history';
 import {makeFakeFilm} from '../../utils/mocks';
 import {AuthStatus} from '../../constants/common';
 import {render, screen} from '@testing-library/react';
-import {Provider} from 'react-redux';
 import HistoryRouter from '../history-route/history-route';
 import FilmCardFull from './film-card-full';
 
