@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {FavoriteSlice} from '../../types/state';
 import {SliceName} from '../../constants/common';
-import {fetchFavorites} from '../api-actions';
+import {fetchFavoritesAction} from '../api-actions';
 
 const initialState: FavoriteSlice = {
   favorites: [],
@@ -14,10 +14,10 @@ export const favoriteSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(fetchFavorites.pending, (state) => {
+      .addCase(fetchFavoritesAction.pending, (state) => {
         state.isLoaded = true;
       })
-      .addCase(fetchFavorites.fulfilled, (state, action) => {
+      .addCase(fetchFavoritesAction.fulfilled, (state, action) => {
         state.isLoaded = false;
         state.favorites = action.payload;
       });

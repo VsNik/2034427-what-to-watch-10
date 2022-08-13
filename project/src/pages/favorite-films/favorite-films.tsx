@@ -4,7 +4,7 @@ import FilmsList from '../../components/films-list/films-list';
 import {useAppSelector} from '../../hooks/use-app-selector';
 import {useAppDispatch} from '../../hooks/use-app-dispatch';
 import {selectFavorites, selectIsLoadedFavorites} from '../../store/favorite-slice/select';
-import {fetchFavorites} from '../../store/api-actions';
+import {fetchFavoritesAction} from '../../store/api-actions';
 import Loader from '../../components/loader/loader';
 
 function FavoriteFilms(): JSX.Element {
@@ -14,7 +14,7 @@ function FavoriteFilms(): JSX.Element {
   const favoriteCount = favoriteFilms.length;
 
   useEffect(() => {
-    dispatch(fetchFavorites());
+    dispatch(fetchFavoritesAction());
   }, [dispatch]);
 
   if (isLoading) {
