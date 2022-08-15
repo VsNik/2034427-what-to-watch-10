@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {ToastContainer} from 'react-toastify';
-import {App} from './components';
+import {App, ScrollTop} from './components';
 import {Provider} from 'react-redux';
 import {store} from './store';
 import {checkAuthAction, fetchFilmsAction, fetchPromoFilmAction} from './store/api-actions';
 import {injectStore} from './services/api';
+import HistoryRouter from './components/history-route/history-route';
+import browserHistory from './utils/browser-history';
 import 'react-toastify/dist/ReactToastify.css';
 
 injectStore(store);
@@ -21,8 +23,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ToastContainer/>
-      <App/>
+      <HistoryRouter history={browserHistory}>
+        <ScrollTop/>
+        <ToastContainer/>
+        <App/>
+      </HistoryRouter>
     </Provider>
   </React.StrictMode>,
 );

@@ -13,7 +13,7 @@ enum DurationTemplate {
   HoursMinutes = 'H[h] m[m]'
 }
 
-const RatingName = [
+export const RatingName = [
   {
     min: 0,
     max: 3,

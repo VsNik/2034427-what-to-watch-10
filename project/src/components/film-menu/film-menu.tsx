@@ -18,6 +18,7 @@ function FilmMenu(): JSX.Element {
           <Link
             to={`?tab=${TabName.Overview}`}
             className="film-nav__link"
+            data-testid="tab-link"
           >
             Overview
           </Link>
@@ -31,6 +32,7 @@ function FilmMenu(): JSX.Element {
           <Link
             to={`?tab=${TabName.Details}`}
             className="film-nav__link"
+            data-testid="tab-link"
           >
             Details
           </Link>
@@ -44,6 +46,7 @@ function FilmMenu(): JSX.Element {
           <Link
             to={`?tab=${TabName.Reviews}`}
             className="film-nav__link"
+            data-testid="tab-link"
           >
             Reviews
           </Link>

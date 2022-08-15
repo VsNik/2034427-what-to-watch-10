@@ -1,7 +1,7 @@
 import {store} from '../store';
 import {rootReducer} from '../store/root-reducer';
 import {FilmType, CommentType} from './common';
-import {AuthStatus} from '../constants/common';
+import {AuthStatus, PlayType} from '../constants/common';
 
 export type Reducer = ReturnType<typeof rootReducer>;
 
@@ -44,4 +44,6 @@ export type FavoriteSlice = {
   isLoaded: boolean;
 }
 
-
+export type PlayerSlice = {
+  playType: PlayType,
+}

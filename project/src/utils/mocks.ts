@@ -1,5 +1,6 @@
 import {lorem, datatype, internet, image, name} from 'faker/locale/en';
 import {AuthData, CommentType, FilmType, NewCommentType, UserData} from '../types/common';
+import {CommentLength} from '../constants/common';
 
 export const UNKNOWN_ACTION = 'UNKNOWN_ACTION';
 export const MOCK_AVATAR = 'mock-avatar.png';
@@ -29,7 +30,7 @@ export const makeFakeFilm = (): FilmType => ({
 });
 
 export const makeFakeFilms = (): FilmType[] =>
-  Array.from({length: 3}, () => makeFakeFilm());
+  Array.from({length: 10}, () => makeFakeFilm());
 
 export const makeFakeComment = (): CommentType => ({
   comment: lorem.words(10),
@@ -62,6 +63,12 @@ export const makeFakeUser = (): UserData => ({
   id: datatype.number({min: 1}),
   name: internet.userName(),
   token: MOCK_TOKEN,
+});
+
+export const makeFakeReview = () => ({
+  short: datatype.string(CommentLength.Min - 1),
+  long: datatype.string(CommentLength.Max + 1),
+  normal: datatype.string(CommentLength.Min + 1),
 });
 
 export const makeDefaultFilm = (): FilmType => ({

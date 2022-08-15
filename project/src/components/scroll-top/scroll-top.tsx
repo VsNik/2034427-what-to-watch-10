@@ -6,7 +6,7 @@ enum StartPosition {
   Left = 0,
 }
 
-function ScrollTop(): JSX.Element | null {
+function ScrollTop(): null {
   const {pathname} = useLocation();
 
   useEffect(() => {

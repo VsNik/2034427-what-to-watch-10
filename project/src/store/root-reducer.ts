@@ -5,6 +5,7 @@ import {filmsSlice} from './films-slice/films-slice';
 import {filmSlice} from './film-slice/film-slice';
 import {commentsSlice} from './comments.slice/comments.slice';
 import {favoriteSlice} from './favorite-slice/favorite-slice';
+import {playerSlice} from './player-slice/player-slice';
 import {SliceName} from '../constants/common';
 
 export const rootReducer = combineReducers({
@@ -14,4 +15,5 @@ export const rootReducer = combineReducers({
   [SliceName.Film]: filmSlice.reducer,
   [SliceName.Favorite]: favoriteSlice.reducer,
   [SliceName.Comments]: commentsSlice.reducer,
+  [SliceName.Player]: playerSlice.reducer,
 });

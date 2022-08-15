@@ -49,6 +49,7 @@ function CommentForm({filmId}: CommentFormType): JSX.Element {
             onChange={(evt) => setComment(evt.target.value)}
             placeholder="Review text"
             disabled={isSending}
+            data-testid="text-comment"
           />
           <div className="add-review__submit">
             <button

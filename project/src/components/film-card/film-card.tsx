@@ -46,6 +46,7 @@ function FilmCard(props: FilmCardProps): JSX.Element {
       }
       onMouseEnter={() => onMouseEnter(id)}
       onMouseLeave={onMouseLeave}
+      data-testid="film-card"
     >
       <Link
         to={getFilmUrl(id)}
@@ -59,6 +60,7 @@ function FilmCard(props: FilmCardProps): JSX.Element {
           ref={videoRef}
           width={270}
           height={175}
+          data-testid="film-card-video"
         />
       </Link>
 

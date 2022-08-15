@@ -3,10 +3,11 @@ import {RouteName} from '../../constants/route-name';
 import {getAddReviewUrl, getPlayerUrl} from '../../utils/route';
 import {useAppSelector} from '../../hooks/use-app-selector';
 import {selectAuthStatus} from '../../store/auth-slice/select';
-import {AuthStatus} from '../../constants/common';
+import {AuthStatus, PlayType} from '../../constants/common';
 import {useAppDispatch} from '../../hooks/use-app-dispatch';
 import {selectFavoritesCount} from '../../store/films-slice/select';
 import {addToFavoriteAction} from '../../store/api-actions';
+import {setPlayType} from '../../store/player-slice/player-slice';
 
 type PosterDescriptionProps = {
   id: number;
@@ -28,19 +29,26 @@ function PosterDescription(props: PosterDescriptionProps): JSX.Element {
     dispatch(addToFavoriteAction({id, status}));
   };
 
+  const handlePlayFilm = () => {
+    const type = isFilmPath ? PlayType.Film : PlayType.Promo;
+    dispatch(setPlayType(type));
+  };
+
   return (
     <div className="film-card__desc">
-      <h2 className="film-card__title">{name}</h2>
+      <h2 className="film-card__title" data-testid="poster-name">{name}</h2>
       <p className="film-card__meta">
-        <span className="film-card__genre">{genre}</span>
+        <span className="film-card__genre" data-testid="poster-genre">{genre}</span>
         <span className="film-card__year">{releaseDate}</span>
       </p>
 
       <div className="film-card__buttons">
         <Link
+          onClick={handlePlayFilm}
           to={getPlayerUrl(id)}
           className="btn btn--play film-card__button"
           type="button"
+          data-testid="poster-play"
         >
           <svg viewBox="0 0 19 19" width="19" height="19">
             <use xlinkHref="#play-s"/>
@@ -54,6 +62,7 @@ function PosterDescription(props: PosterDescriptionProps): JSX.Element {
             className="btn btn--list film-card__button"
             type="button"
             onClick={handleAddToFavorite}
+            data-testid="my-list"
           >
             <svg viewBox="0 0 19 20" width="19" height="20">
               {
@@ -72,6 +81,7 @@ function PosterDescription(props: PosterDescriptionProps): JSX.Element {
           <Link
             to={getAddReviewUrl(id)}
             className="btn film-card__button"
+            data-testid="add-review"
           >
             Add review
           </Link>
