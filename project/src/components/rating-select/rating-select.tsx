@@ -1,6 +1,5 @@
 import React from 'react';
-
-export const MAX_RATING = 10;
+import {MAX_RATING} from '../../constants/common';
 
 type RatingSelectProps = {
   isSending: boolean;
@@ -27,6 +26,7 @@ function RatingSelect({isSending, onChangeRating}: RatingSelectProps): JSX.Eleme
               <label
                 className="rating__label"
                 htmlFor={`star-${MAX_RATING - index}`}
+                data-testid="label-star"
               >
                 Rating {MAX_RATING - index}
               </label>

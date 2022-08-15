@@ -2,9 +2,10 @@ import {ChangeEvent, useEffect, useRef, useState} from 'react';
 import {Link, Navigate, useParams} from 'react-router-dom';
 import {getFilmUrl} from '../../utils/route';
 import {useAppSelector} from '../../hooks/use-app-selector';
-import {selectFilm} from '../../store/film-slice/select';
 import {Spinner} from '../../components';
 import {formattingLastTime} from '../../utils/common';
+import {selectPlayFilm, selectPlayType} from '../../store/player-slice/select';
+import {PlayType} from '../../constants/common';
 import './player.css';
 
 enum ProgressPlay {
@@ -14,7 +15,8 @@ enum ProgressPlay {
 
 function Player(): JSX.Element {
   const params = useParams();
-  const film = useAppSelector(selectFilm);
+  const film = useAppSelector(selectPlayFilm);
+  const playType = useAppSelector(selectPlayType);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -28,7 +30,7 @@ function Player(): JSX.Element {
       : videoRef.current?.pause();
   }, [isPlaying]);
 
-  if (!film.id) {
+  if (!film || playType === PlayType.Unknown) {
     const filmId = params.id as string;
     return <Navigate to={getFilmUrl(filmId)}/>;
   }
@@ -85,11 +87,13 @@ function Player(): JSX.Element {
         onSeeking={() => setIsLoading(true)}
         onSeeked={() => setIsLoading(false)}
         onEnded={handleEndPlay}
+        data-testid="player-video"
       />
       <Link
         onClick={() => setIsPlaying(false)}
         to={getFilmUrl(id)}
         className="player__exit"
+        data-testid="player-exit"
       >
         Exit
       </Link>
@@ -116,9 +120,10 @@ function Player(): JSX.Element {
               className="player__progress"
               value={progress}
               max="100"
+              data-testid="player-progress"
             />
           </div>
-          <div className="player__time-value">- {formatLastTime}</div>
+          <div className="player__time-value" data-testid="player-time">- {formatLastTime}</div>
         </div>
 
         <div className="player__controls-row">
@@ -129,6 +134,7 @@ function Player(): JSX.Element {
                   type="button"
                   className="player__play"
                   onClick={() => togglePlay()}
+                  data-testid="player-pause"
                 >
                   <svg viewBox="0 0 14 21" width="14" height="21">
                     <use xlinkHref="#pause"/>
@@ -141,6 +147,7 @@ function Player(): JSX.Element {
                   type="button"
                   className="player__play"
                   onClick={() => togglePlay()}
+                  data-testid="player-play"
                 >
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"/>
@@ -155,6 +162,7 @@ function Player(): JSX.Element {
             type="button"
             className="player__full-screen"
             onClick={toggleFullscreen}
+            data-testid="player-fullscreen"
           >
             <svg viewBox="0 0 27 27" width="27" height="27">
               <use xlinkHref="#full-screen"/>

@@ -46,6 +46,7 @@ function GenreMenu({changeShowCount}: GenreMenuProps): JSX.Element {
               'catalog__genres-item',
               {'catalog__genres-item--active': genreName === genre.toLowerCase()}
             )}
+            data-testid="genre"
           >
             <Link
               to={getGenreUrl(genre)}
