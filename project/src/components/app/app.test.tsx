@@ -3,91 +3,93 @@ import {render, screen} from '@testing-library/react';
 import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
 import {createMemoryHistory} from 'history';
-import {AuthStatus, PlayType} from '../../constants/common';
+import {AuthStatus, DEFAULT_GENRE, PlayType} from '../../constants/common';
 import HistoryRouter from '../history-route/history-route';
 import {RouteName} from '../../constants/route-name';
-import {makeFakeFilm} from '../../utils/mocks';
+import {makeDefaultFilm, makeFakeFilm} from '../../utils/mocks';
 import {getAddReviewUrl, getFilmUrl, getPlayerUrl} from '../../utils/route';
 import App from './app';
 
 const INVALID_PATH = '/not-found';
 
 const mockStore = configureMockStore([thunk]);
-const mockFilm = makeFakeFilm();
 const history = createMemoryHistory();
+const fakeFilm = makeFakeFilm();
 
 let store = mockStore({
   AUTH: {authStatus: AuthStatus.Auth, isLoaded: false},
   FILMS: {films: [], isLoaded: false},
-  PROMO: {promoFilm: mockFilm, isLoaded: false},
-  FILM: {film: mockFilm, isLoaded: false, similarFilms: [mockFilm]},
+  PROMO: {promoFilm: fakeFilm, isLoaded: false},
+  FILM: {film: fakeFilm, isLoaded: false, similarFilms: []},
   PLAYER: {playType: PlayType.Film},
-  FAVORITE: {favorites: [mockFilm], isLoaded: false},
-  COMMENTS: {isSending: false}
+  FAVORITE: {favorites: [], isLoaded: false},
+  COMMENTS: {isSending: false},
 });
 
-const mockApp = (
-  <Provider store={store}>
-    <HistoryRouter history={history}>
-      <App/>
-    </HistoryRouter>
-  </Provider>
-);
+function MockApp(): JSX.Element {
+  return(
+    <Provider store={store}>
+      <HistoryRouter history={history}>
+        <App/>
+      </HistoryRouter>
+    </Provider>
+  );
+}
 
 describe('Application Routing', () => {
   beforeAll(() => {
-    window.HTMLVideoElement.prototype.play = () => Promise.resolve();
+    window.HTMLVideoElement.prototype.play = jest.fn();
     window.HTMLVideoElement.prototype.pause = jest.fn();
   });
 
   it('should render "Main" when user navigate to "/"', () => {
     history.push(RouteName.Main);
 
-    render( mockApp);
+    render(<MockApp/>);
 
     expect(screen.getByTestId('bg-promo-img')).toBeInTheDocument();
     expect(screen.getByTestId('poster-img')).toBeInTheDocument();
   });
 
   it('should render "Film" when user navigate to "/film/{id}"', () => {
-    history.push(getFilmUrl(mockFilm.id));
+    history.push(getFilmUrl(fakeFilm.id));
 
-    render( mockApp);
+    render(<MockApp/>);
 
     expect(screen.getByTestId('bg-img')).toBeInTheDocument();
     expect(screen.getByTestId('poster-img')).toBeInTheDocument();
   });
 
   it('should render "Player" when user navigate to "/player/{id}"', () => {
-    history.push(getPlayerUrl(mockFilm.id));
+    history.push(getPlayerUrl(fakeFilm.id));
 
-    render(mockApp);
+    render(<MockApp/>);
 
     expect(screen.getByTestId('player-exit')).toBeInTheDocument();
-    expect(screen.getByTestId('player-video')).toHaveAttribute('src', mockFilm.videoLink);
+    expect(screen.getByTestId('player-video')).toHaveAttribute('src', fakeFilm.videoLink);
   });
 
   it('should render "MyList" when user navigate to "/mylist"', () => {
     history.push(RouteName.MyList);
 
-    render(mockApp);
+    render(<MockApp/>);
 
     expect(screen.getByText(/My list/i)).toBeInTheDocument();
   });
 
   it('should render "Favorites" when user navigate to "/films/{id}/favorite"', () => {
-    history.push(getAddReviewUrl(mockFilm.id));
+    history.push(getAddReviewUrl(fakeFilm.id));
 
-    render(mockApp);
+    render(<MockApp/>);
 
     expect(screen.getByText(/Add review/i)).toBeInTheDocument();
-    expect(screen.getByTestId('add-review-img')).toHaveAttribute('src', mockFilm.backgroundImage);
+    expect(screen.getByTestId('add-review-img')).toHaveAttribute('src', fakeFilm.backgroundImage);
   });
 
   it('should render "Not Found Page" when user navigate to invalid url', () => {
     history.push(getAddReviewUrl(INVALID_PATH));
 
-    render(mockApp);
+    render(<MockApp/>);
 
     expect(screen.getByText(/Not Found/i)).toBeInTheDocument();
   });
@@ -100,16 +102,49 @@ describe('Application Routing', () => {
       PROMO: {isLoaded: false},
     });
 
-    render(
-      <Provider store={store}>
-        <HistoryRouter history={history}>
-          <App/>
-        </HistoryRouter>
-      </Provider>
-    );
+    render(<MockApp/>);
 
     expect(screen.getByLabelText('Email address')).toBeInTheDocument();
     expect(screen.getByLabelText('Password')).toBeInTheDocument();
     expect(screen.getByRole('button').textContent).toBe('Sign In');
+  });
+
+  it('should render preloader, if user authorization status is "unknown"', () => {
+    history.push(RouteName.Main);
+    store = mockStore({
+      AUTH: {authStatus: AuthStatus.Unknown},
+      FILMS: {isLoaded: false, genre: DEFAULT_GENRE, films: []},
+      PROMO: {isLoaded: false, promoFilm: makeDefaultFilm()},
+    });
+
+    render(<MockApp/>);
+
+    expect(screen.getByTestId('spinner')).toBeInTheDocument();
+  });
+
+  it('should render preloader, if films is loading', () => {
+    history.push(RouteName.Main);
+    store = mockStore({
+      AUTH: {authStatus: AuthStatus.Auth},
+      FILMS: {isLoaded: true, genre: DEFAULT_GENRE, films: []},
+      PROMO: {isLoaded: false, promoFilm: makeDefaultFilm()},
+    });
+
+    render(<MockApp/>);
+
+    expect(screen.getByTestId('spinner')).toBeInTheDocument();
+  });
+
+  it('should render preloader, if promoFilm is loading', () => {
+    history.push(RouteName.Main);
+    store = mockStore({
+      AUTH: {authStatus: AuthStatus.Auth},
+      FILMS: {isLoaded: false, genre: DEFAULT_GENRE, films: []},
+      PROMO: {isLoaded: true, promoFilm: makeDefaultFilm()},
+    });
+
+    render(<MockApp/>);
+
+    expect(screen.getByTestId('spinner')).toBeInTheDocument();
   });
 });

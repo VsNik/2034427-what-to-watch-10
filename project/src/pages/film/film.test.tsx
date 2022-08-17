@@ -6,22 +6,23 @@ import HistoryRouter from '../../components/history-route/history-route';
 import Film from './film';
 import {makeFakeFilms} from '../../utils/mocks';
 import {AuthStatus, DEFAULT_GENRE, MAX_COUNT_SIMILAR_FILMS} from '../../constants/common';
-import {RouteName} from '../../constants/route-name';
+import {getFilmUrl} from '../../utils/route';
 
 const mockStore = configureMockStore();
 const history = createMemoryHistory();
-const mockFilms = makeFakeFilms();
+const fakeFilms = makeFakeFilms();
 
-window.HTMLMediaElement.prototype.pause = jest.fn();
-const mockSimilarFilms = mockFilms.slice(0, MAX_COUNT_SIMILAR_FILMS);
+const fakeSimilarFilms = fakeFilms.slice(0, MAX_COUNT_SIMILAR_FILMS);
 
 describe('Component: Film', () => {
-  it('should render correctly', async () => {
-    history.push(RouteName.Film.path);
+  window.HTMLMediaElement.prototype.pause = jest.fn();
+
+  it('should render correctly', () => {
+    history.push(getFilmUrl(fakeFilms[0].id));
     const store = mockStore({
       AUTH: {authStatus: AuthStatus.Auth, avatar: 'avatar'},
-      FILM: {genre: DEFAULT_GENRE, film: mockFilms[0], similarFilms: mockSimilarFilms, isLoaded: false},
-      FILMS: {films: mockFilms}
+      FILM: {genre: DEFAULT_GENRE, film: fakeFilms[0], similarFilms: fakeSimilarFilms, isLoaded: false},
+      FILMS: {films: fakeFilms}
     });
 
     render(
@@ -32,17 +33,17 @@ describe('Component: Film', () => {
       </Provider>
     );
 
-    expect(screen.getByTestId('bg-img')).toHaveAttribute('src', mockFilms[0].backgroundImage);
-    expect(screen.getByTestId('poster-img')).toHaveAttribute('src', mockFilms[0].posterImage);
-    expect(screen.getByTestId('poster-name').textContent).toBe(mockFilms[0].name);
-    expect(screen.getByTestId('poster-genre').textContent).toBe(mockFilms[0].genre);
-    expect(screen.getByText(mockFilms[0].released)).toBeInTheDocument();
+    expect(screen.getByTestId('bg-img')).toHaveAttribute('src', fakeFilms[0].backgroundImage);
+    expect(screen.getByTestId('poster-img')).toHaveAttribute('src', fakeFilms[0].posterImage);
+    expect(screen.getByTestId('poster-name').textContent).toBe(fakeFilms[0].name);
+    expect(screen.getByTestId('poster-genre').textContent).toBe(fakeFilms[0].genre);
+    expect(screen.getByText(fakeFilms[0].released)).toBeInTheDocument();
 
     expect(screen.getByText(/More like this/i)).toBeInTheDocument();
     expect(screen.getByText(/Play/i)).toBeInTheDocument();
     expect(screen.getByText(/My list/i)).toBeInTheDocument();
     expect(screen.getByText(/Add review/i)).toBeInTheDocument();
 
-    expect(screen.getAllByTestId('film-card').length).toBe(mockSimilarFilms.length);
+    expect(screen.getAllByTestId('film-card').length).toBe(fakeSimilarFilms.length);
   });
 });

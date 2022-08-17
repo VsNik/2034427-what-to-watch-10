@@ -10,7 +10,7 @@ describe('Component: ShowMoreButton', () => {
     render(
       <ShowMoreButton
         showCount={DEFAULT_SHOW_FILMS}
-        changeShowCount={mockChangeShowCount}
+        onChangeShowCount={mockChangeShowCount}
       />
     );
 

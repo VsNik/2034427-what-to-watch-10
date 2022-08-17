@@ -19,7 +19,7 @@ function Main(): JSX.Element {
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
-          <GenreMenu changeShowCount={setShowCount}/>
+          <GenreMenu onChangeShowCount={setShowCount}/>
 
           <FilmsList films={getFilmsList(filteredFilms)}/>
 
@@ -27,7 +27,7 @@ function Main(): JSX.Element {
             filteredFilms.length > showCount &&
             <ShowMoreButton
               showCount={showCount}
-              changeShowCount={setShowCount}
+              onChangeShowCount={setShowCount}
             />
           }
         </section>

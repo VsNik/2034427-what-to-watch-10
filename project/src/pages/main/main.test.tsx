@@ -10,15 +10,16 @@ import Main from './main';
 
 const mockStore = configureMockStore();
 const history = createMemoryHistory();
-const mockFilms = makeFakeFilms();
-window.HTMLMediaElement.prototype.pause = jest.fn();
+const fakeFilms = makeFakeFilms();
 
 describe('Component: Main', () => {
+  window.HTMLMediaElement.prototype.pause = jest.fn();
+
   it('should render correctly', async () => {
     const store = mockStore({
       AUTH: {authStatus: AuthStatus.Auth},
-      FILMS: {genre: DEFAULT_GENRE, films: mockFilms, isLoaded: false},
-      PROMO: {promoFilm: mockFilms[0], isLoaded: false},
+      FILMS: {genre: DEFAULT_GENRE, films: fakeFilms, isLoaded: false},
+      PROMO: {promoFilm: fakeFilms[0], isLoaded: false},
     });
 
     render(
@@ -30,9 +31,9 @@ describe('Component: Main', () => {
     );
 
     expect(screen.getByTestId('bg-promo-img')).toBeInTheDocument();
-    expect(screen.getByTestId('poster-img')).toHaveAttribute('src', mockFilms[0].posterImage);
-    expect(screen.getAllByText(mockFilms[0].name)[0]).toBeInTheDocument();
-    expect(screen.getByText(mockFilms[0].released)).toBeInTheDocument();
+    expect(screen.getByTestId('poster-img')).toHaveAttribute('src', fakeFilms[0].posterImage);
+    expect(screen.getAllByText(fakeFilms[0].name)[0]).toBeInTheDocument();
+    expect(screen.getByText(fakeFilms[0].released)).toBeInTheDocument();
     expect(screen.getByText(/Play/i)).toBeInTheDocument();
     expect(screen.getByText(/My list/i)).toBeInTheDocument();
     expect(screen.getByText(/All genres/i)).toBeInTheDocument();
@@ -41,7 +42,7 @@ describe('Component: Main', () => {
 
     await userEvent.click(screen.getByText(/Show more/i));
 
-    expect(screen.getAllByTestId('film-card').length).toBe(mockFilms.length);
+    expect(screen.getAllByTestId('film-card').length).toBe(fakeFilms.length);
     expect(screen.queryByText(/Show more/i)).not.toBeInTheDocument();
   });
 });

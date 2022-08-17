@@ -7,17 +7,16 @@ import HistoryRouter from '../history-route/history-route';
 import PromoFilm from './promo-film';
 import {AuthStatus} from '../../constants/common';
 
+const mockStore = configureMockStore();
+const history = createMemoryHistory();
+const fakeFilm = makeFakeFilm();
+
 describe('Component: PromoFilm', () => {
-  const mockStore = configureMockStore();
-  const history = createMemoryHistory();
-
   it('should render correctly', () => {
-    const mockFilm = makeFakeFilm();
-
     const store = mockStore({
       AUTH: {authStatus: AuthStatus.Auth},
       FILMS: {films: []},
-      PROMO: {promoFilm: mockFilm, isLoaded: false},
+      PROMO: {promoFilm: fakeFilm, isLoaded: false},
     });
 
     render(
@@ -28,7 +27,7 @@ describe('Component: PromoFilm', () => {
       </Provider>
     );
 
-    expect(screen.getByTestId('bg-promo-img')).toHaveAttribute('src', mockFilm.backgroundImage);
-    expect(screen.getByTestId('bg-promo-img')).toHaveAttribute('alt', mockFilm.name);
+    expect(screen.getByTestId('bg-promo-img')).toHaveAttribute('src', fakeFilm.backgroundImage);
+    expect(screen.getByTestId('bg-promo-img')).toHaveAttribute('alt', fakeFilm.name);
   });
 });

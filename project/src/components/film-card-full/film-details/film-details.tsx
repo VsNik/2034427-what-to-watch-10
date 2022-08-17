@@ -1,5 +1,5 @@
-import {FilmType} from '../../types/common';
-import {formattingDuration} from '../../utils/common';
+import {FilmType} from '../../../types/common';
+import {formattingDuration} from '../../../utils/common';
 
 type FilmDetailsProps = {
   film: FilmType;

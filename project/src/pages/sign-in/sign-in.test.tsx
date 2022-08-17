@@ -8,11 +8,12 @@ import SignIn from './sign-in';
 import {AuthStatus} from '../../constants/common';
 import {Route, Routes} from 'react-router-dom';
 import {RouteName} from '../../constants/route-name';
+import {MOCK_ERROR} from '../../utils/mocks';
+
+const mockStore = configureMockStore();
+const history = createMemoryHistory();
 
 describe('Component: SignIn', () => {
-  const mockStore = configureMockStore();
-  const history = createMemoryHistory();
-
   it('should render correctly if user is unauthorized', async () => {
     const store = mockStore({
       AUTH: {authStatus: AuthStatus.NoAuth},
@@ -60,5 +61,39 @@ describe('Component: SignIn', () => {
     );
 
     expect(screen.getByText(/Mock Main Page/i)).toBeInTheDocument();
+  });
+
+  it('should show error, if incorrect auth data', () => {
+    const store = mockStore({
+      AUTH: {authStatus: AuthStatus.NoAuth, error: MOCK_ERROR},
+    });
+
+    render(
+      <Provider store={store}>
+        <HistoryRouter history={history}>
+          <SignIn/>
+        </HistoryRouter>
+      </Provider>
+    );
+
+    expect(screen.getByTestId('auth-error').textContent).toBe(MOCK_ERROR);
+  });
+
+  it('should disabled form, if sending auth data', () => {
+    const store = mockStore({
+      AUTH: {authStatus: AuthStatus.NoAuth, isSending: true},
+    });
+
+    render(
+      <Provider store={store}>
+        <HistoryRouter history={history}>
+          <SignIn/>
+        </HistoryRouter>
+      </Provider>
+    );
+
+    expect(screen.getByTestId('user-email')).toHaveProperty('disabled', true);
+    expect(screen.getByTestId('user-password')).toHaveProperty('disabled', true);
+    expect(screen.getByRole('button')).toHaveProperty('disabled', true);
   });
 });

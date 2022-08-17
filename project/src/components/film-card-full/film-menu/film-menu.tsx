@@ -1,7 +1,7 @@
 import {Link} from 'react-router-dom';
 import classNames from 'classnames';
-import {TabName} from '../../constants/common';
-import {useFilmTab} from '../../hooks/use-film-tab';
+import {TabName} from '../../../constants/common';
+import {useFilmTab} from '../../../hooks/use-film-tab';
 
 function FilmMenu(): JSX.Element {
   const tab = useFilmTab();

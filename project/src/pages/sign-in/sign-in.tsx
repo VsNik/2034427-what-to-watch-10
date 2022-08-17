@@ -18,7 +18,7 @@ function SignIn(): JSX.Element {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+  const handleSignInSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     const validError = signInValidator(email, password);
 
@@ -40,11 +40,11 @@ function SignIn(): JSX.Element {
       </Header>
 
       <div className="sign-in user-page__content">
-        <form action="#" className="sign-in__form" onSubmit={handleSubmit}>
+        <form action="#" className="sign-in__form" onSubmit={handleSignInSubmit}>
           {
             error &&
             <div className="sign-in__message">
-              <p>{error}</p>
+              <p data-testid="auth-error">{error}</p>
             </div>
           }
 

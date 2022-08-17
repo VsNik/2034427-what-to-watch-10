@@ -1,5 +1,5 @@
 import React from 'react';
-import {MAX_RATING} from '../../constants/common';
+import {MAX_RATING} from '../../../constants/common';
 
 type RatingSelectProps = {
   isSending: boolean;

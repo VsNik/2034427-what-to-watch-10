@@ -1,5 +1,5 @@
-import {CommentType} from '../../types/common';
-import {formattingCommentDate} from '../../utils/common';
+import {CommentType} from '../../../../types/common';
+import {formattingCommentDate} from '../../../../utils/common';
 
 type ReviewProps = {
   review: CommentType;
@@ -10,7 +10,7 @@ function Review({review}: ReviewProps): JSX.Element {
   const commentDate = formattingCommentDate(date);
 
   return (
-    <div className="review">
+    <div className="review" data-testid="comment">
       <blockquote className="review__quote">
         <p className="review__text">{comment}</p>
 

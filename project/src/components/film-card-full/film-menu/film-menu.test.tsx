@@ -1,6 +1,6 @@
 import {createMemoryHistory} from 'history';
 import {render, screen} from '@testing-library/react';
-import HistoryRouter from '../history-route/history-route';
+import HistoryRouter from '../../history-route/history-route';
 import FilmMenu from './film-menu';
 
 const history = createMemoryHistory();
@@ -12,7 +12,7 @@ const mockComponent = (
 );
 
 describe('Component: FilmMenu', () => {
-  it('should render correctly', async () => {
+  it('should render correctly', () => {
     render(mockComponent);
 
     expect(screen.getByText(/Overview/i)).toBeInTheDocument();

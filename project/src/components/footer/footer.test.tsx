@@ -3,11 +3,12 @@ import {createMemoryHistory} from 'history';
 import Footer from './footer';
 import HistoryRouter from '../history-route/history-route';
 
-describe('Component Footer', () => {
-  const history = createMemoryHistory();
+const history = createMemoryHistory();
 
+describe('Component Footer', () => {
   it('should render correctly', () => {
     const currentYar = new Date().getFullYear();
+
     render(
       <HistoryRouter history={history}>
         <Footer/>

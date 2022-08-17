@@ -10,7 +10,7 @@ import {makeFakeFilms} from '../../utils/mocks';
 
 const mockStore = configureMockStore([thunk]);
 const history = createMemoryHistory();
-const mockFilms = makeFakeFilms();
+const fakeFilms = makeFakeFilms();
 
 window.HTMLMediaElement.prototype.pause = jest.fn();
 
@@ -18,7 +18,7 @@ describe('Component: FavoriteFilms', () => {
   it('should render correctly', () => {
     const store = mockStore({
       AUTH: {authStatus: AuthStatus.Auth},
-      FAVORITE: {favorites: mockFilms, isLoaded: false}
+      FAVORITE: {favorites: fakeFilms, isLoaded: false}
     });
 
     render(
@@ -32,6 +32,6 @@ describe('Component: FavoriteFilms', () => {
     expect(screen.getByText(/My list/i)).toBeInTheDocument();
 
     const cards = screen.getAllByTestId('film-card');
-    expect(cards.length).toBe(mockFilms.length);
+    expect(cards.length).toBe(fakeFilms.length);
   });
 });

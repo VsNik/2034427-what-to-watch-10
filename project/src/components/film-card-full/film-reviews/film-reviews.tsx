@@ -1,6 +1,6 @@
-import {Review} from '../';
-import {useAppSelector} from '../../hooks/use-app-selector';
-import {selectComments} from '../../store/comments.slice/select';
+import Review from './review/review';
+import {useAppSelector} from '../../../hooks/use-app-selector';
+import {selectComments} from '../../../store/comments.slice/select';
 
 function FilmReviews(): JSX.Element {
   const comments = useAppSelector(selectComments);

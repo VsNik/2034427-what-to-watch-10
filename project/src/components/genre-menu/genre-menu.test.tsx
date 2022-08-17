@@ -10,29 +10,29 @@ import {DEFAULT_GENRE, MAX_COUNT_GENRES} from '../../constants/common';
 
 const mockStore = configureMockStore();
 const history = createMemoryHistory();
+const fakeFilms = makeFakeFilms();
 
 describe('Component: GenreMenu', () => {
   it('should render correctly', () => {
-    const changeShowCount = jest.fn();
-    const mockFilms = makeFakeFilms();
-    const genres = selectGenres.resultFunc(mockFilms)
+    const mockOnChangeShowCount = jest.fn();
+    const fakeGenres = selectGenres.resultFunc(fakeFilms)
       .slice(0, MAX_COUNT_GENRES);
 
     const store = mockStore({
-      FILMS: {films: mockFilms},
+      FILMS: {films: fakeFilms},
     });
 
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>
-          <GenreMenu changeShowCount={changeShowCount}/>
+          <GenreMenu onChangeShowCount={mockOnChangeShowCount}/>
         </HistoryRouter>
       </Provider>
     );
 
     expect(screen.getByText(DEFAULT_GENRE)).toBeInTheDocument();
 
-    genres.map((genre) =>
+    fakeGenres.map((genre) =>
       expect(screen.getByText(genre)).toBeInTheDocument()
     );
   });

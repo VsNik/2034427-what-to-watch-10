@@ -2,14 +2,18 @@ import {render, screen} from '@testing-library/react';
 import {Poster} from '../index';
 import {makeFakeFilm} from '../../utils/mocks';
 
+const fakeFilm = makeFakeFilm();
+
 describe('Component Poster', () => {
   it('should render correctly', () => {
-    const mockFilm = makeFakeFilm();
-    const posterSrc = mockFilm.posterImage;
-    const posterTitle = mockFilm.name;
+    const posterSrc = fakeFilm.posterImage;
+    const posterTitle = fakeFilm.name;
 
     render(
-      <Poster posterSrc={posterSrc} posterTitle={posterTitle}/>
+      <Poster
+        posterSrc={posterSrc}
+        posterTitle={posterTitle}
+      />
     );
 
     expect(screen.getByTestId('poster-img')).toHaveAttribute('src', posterSrc);
