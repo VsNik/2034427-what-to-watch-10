@@ -1,7 +1,7 @@
 import {render, screen} from '@testing-library/react';
 import FilmOverview from './film-overview';
-import {makeFakeFilm} from '../../utils/mocks';
-import {getRatingName} from '../../utils/common';
+import {makeFakeFilm} from '../../../utils/mocks';
+import {getRatingName} from '../../../utils/common';
 
 describe('Component: FilmOverview', () => {
   it('should render correctly', () => {

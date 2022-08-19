@@ -10,18 +10,18 @@ import {useAppSelector} from '../../hooks/use-app-selector';
 import {useAppDispatch} from '../../hooks/use-app-dispatch';
 
 type GenreMenuProps = {
-  changeShowCount: (value: number) => void;
+  onChangeShowCount: (value: number) => void;
 }
 
-function GenreMenu({changeShowCount}: GenreMenuProps): JSX.Element {
+function GenreMenu({onChangeShowCount}: GenreMenuProps): JSX.Element {
   const genres = useAppSelector(selectGenres);
   const {genreName} = useParams();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(changeGenre(genreName));
-    changeShowCount(DEFAULT_SHOW_FILMS);
-  }, [genreName, dispatch, changeShowCount]);
+    onChangeShowCount(DEFAULT_SHOW_FILMS);
+  }, [genreName, dispatch, onChangeShowCount]);
 
   return (
     <ul className="catalog__genres-list">

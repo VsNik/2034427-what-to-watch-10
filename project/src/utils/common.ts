@@ -43,15 +43,15 @@ enum TimeMetric {
   Minute = 'minutes',
 }
 
-export const formattingCommentDate = (date: string) =>
+export const formattingCommentDate = (date: string): string =>
   dayjs(date).format(COMMENT_DATE_FORMAT);
 
-export const formattingDuration = (runtime: number) => {
+export const formattingDuration = (runtime: number): string => {
   const timeDuration = dayjs.duration(runtime, TimeMetric.Minute);
   return timeDuration.format(DurationTemplate.HoursMinutes);
 };
 
-export const formattingLastTime = (runtime: number) => {
+export const formattingLastTime = (runtime: number): string => {
   const timeDuration = dayjs.duration(runtime, TimeMetric.Second);
 
   if ((runtime / ONE_HOUR) < 1) {
@@ -61,7 +61,7 @@ export const formattingLastTime = (runtime: number) => {
   return timeDuration.format(DurationTemplate.HoursMinutesSeconds);
 };
 
-export const getRatingName = (rating: number) => {
+export const getRatingName = (rating: number): string => {
   for (const item of RatingName) {
     if (rating >= item.min && rating < item.max) {
       return item.name;

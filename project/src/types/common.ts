@@ -24,9 +24,9 @@ export type ReviewUserType = {
 }
 
 export type CommentType = {
+  id: number;
   comment: string;
   date: string;
-  id: number;
   rating: number;
   user: ReviewUserType;
 }
@@ -48,10 +48,10 @@ export type AuthData = {
 };
 
 export type UserData = {
-  avatarUrl: string
-  email: string
-  id: number
-  name: string
-  token: string
+  id: number;
+  avatarUrl: string;
+  email: string;
+  name: string;
+  token: string;
 };
 

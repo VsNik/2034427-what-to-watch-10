@@ -9,12 +9,13 @@ import AddReview from './add-review';
 
 const mockStore = configureMockStore();
 const history = createMemoryHistory();
-const mockFilm = makeFakeFilm();
+const fakeFilm = makeFakeFilm();
+
 describe('Component: AddReview', () => {
   it('should render correctly', () => {
     const store = mockStore({
       AUTH: {authStatus: AuthStatus.Auth},
-      FILM: {film: mockFilm, isLoaded: false},
+      FILM: {film: fakeFilm, isLoaded: false},
       COMMENTS: {isSending: false},
     });
 
@@ -26,9 +27,9 @@ describe('Component: AddReview', () => {
       </Provider>
     );
 
-    expect(screen.getByText(mockFilm.name)).toBeInTheDocument();
+    expect(screen.getByText(fakeFilm.name)).toBeInTheDocument();
     expect(screen.getByText('Add review')).toBeInTheDocument();
-    expect(screen.getByTestId('add-review-img')).toHaveAttribute('src', mockFilm.backgroundImage);
-    expect(screen.getByTestId('add-review-img')).toHaveAttribute('alt', mockFilm.name);
+    expect(screen.getByTestId('add-review-img')).toHaveAttribute('src', fakeFilm.backgroundImage);
+    expect(screen.getByTestId('add-review-img')).toHaveAttribute('alt', fakeFilm.name);
   });
 });

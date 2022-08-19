@@ -9,14 +9,15 @@ import HistoryRouter from '../history-route/history-route';
 
 const mockStore = configureMockStore();
 const history = createMemoryHistory();
+const fakeFilms = makeFakeFilms()
+  .slice(0, MAX_COUNT_SIMILAR_FILMS);
 
 describe('Component: SimilarFilms', () => {
-  it('should render correctly', () => {
-    const mockFilms = makeFakeFilms()
-      .slice(0, MAX_COUNT_SIMILAR_FILMS);
+  window.HTMLMediaElement.prototype.pause = jest.fn();
 
+  it('should render correctly', () => {
     const store = mockStore({
-      FILM: {similarFilms: mockFilms},
+      FILM: {similarFilms: fakeFilms},
     });
 
     render(
@@ -28,6 +29,6 @@ describe('Component: SimilarFilms', () => {
     );
 
     expect(screen.getByText(/More like this/i)).toBeInTheDocument();
-    expect(screen.getAllByTestId('film-card').length).toBe(mockFilms.length);
+    expect(screen.getAllByTestId('film-card').length).toBe(fakeFilms.length);
   });
 });

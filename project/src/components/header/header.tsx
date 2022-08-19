@@ -7,6 +7,7 @@ import {useAppDispatch} from '../../hooks/use-app-dispatch';
 import {logoutAction} from '../../store/api-actions';
 import {selectAuthStatus, selectAvatar} from '../../store/auth-slice/select';
 import {AuthStatus} from '../../constants/common';
+import {Logo} from '../';
 
 type HeaderProps = PropsWithChildren<{
   className?: string;
@@ -25,13 +26,7 @@ function Header({className, children}: HeaderProps): JSX.Element {
 
   return (
     <header className={classNames('page-header', className)}>
-      <div className="logo">
-        <Link to={RouteName.Main} className="logo__link">
-          <span className="logo__letter logo__letter--1">W</span>
-          <span className="logo__letter logo__letter--2">T</span>
-          <span className="logo__letter logo__letter--3">W</span>
-        </Link>
-      </div>
+      <Logo/>
 
       {children}
 

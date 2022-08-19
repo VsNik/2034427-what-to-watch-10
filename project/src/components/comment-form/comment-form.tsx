@@ -1,5 +1,5 @@
 import {FormEvent, useState} from 'react';
-import {RatingSelect} from '../index';
+import RatingSelect from './rating-select/rating-select';
 import {useAppDispatch} from '../../hooks/use-app-dispatch';
 import {sendCommentAction} from '../../store/api-actions';
 import {useAppSelector} from '../../hooks/use-app-selector';
@@ -19,26 +19,29 @@ function CommentForm({filmId}: CommentFormType): JSX.Element {
   const error = useAppSelector(selectCommentError);
   const isValidForm = useValidComment(comment, rating);
 
-  const handleSetRating = (value: string) => {
+  const onChangeRating = (value: string) => {
     setRating(parseInt(value, 10));
   };
 
-  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+  const handleCommentSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     dispatch(sendCommentAction({filmId, comment, rating}));
   };
 
   return (
     <div className="add-review">
-      <form action="#" className="add-review__form" onSubmit={handleSubmit}>
+      <form action="#" className="add-review__form" onSubmit={handleCommentSubmit}>
         {
           error &&
           <div className="add-review__message">
-            <p>{error}</p>
+            <p data-testid="comment-error">{error}</p>
           </div>
         }
 
-        <RatingSelect isSending={isSending} onChangeRating={handleSetRating}/>
+        <RatingSelect
+          isSending={isSending}
+          onChangeRating={onChangeRating}
+        />
 
         <div className="add-review__text">
           <textarea

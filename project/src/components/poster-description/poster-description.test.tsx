@@ -14,7 +14,7 @@ const mockStore = configureMockStore();
 const history = createMemoryHistory();
 const fakeFilm = makeFakeFilm();
 
-const mockComponent = (
+const mockPosterDescription = (
   <PosterDescription
     id={fakeFilm.id}
     name={fakeFilm.name}
@@ -37,7 +37,7 @@ describe('Component: PosterDescription', () => {
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>
-          {mockComponent}
+          {mockPosterDescription}
         </HistoryRouter>
       </Provider>
     );
@@ -62,7 +62,7 @@ describe('Component: PosterDescription', () => {
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>
-          {mockComponent}
+          {mockPosterDescription}
         </HistoryRouter>
       </Provider>
     );
@@ -83,7 +83,7 @@ describe('Component: PosterDescription', () => {
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>
-          {mockComponent}
+          {mockPosterDescription}
         </HistoryRouter>
       </Provider>
     );
@@ -107,7 +107,7 @@ describe('Component: PosterDescription', () => {
           <Routes>
             <Route
               path={RouteName.Main}
-              element={mockComponent}
+              element={mockPosterDescription}
             />
             <Route
               path={RouteName.Player.path}
@@ -138,7 +138,7 @@ describe('Component: PosterDescription', () => {
           <Routes>
             <Route
               path={RouteName.Film.path}
-              element={mockComponent}
+              element={mockPosterDescription}
             />
             <Route
               path={RouteName.AddReview.path}

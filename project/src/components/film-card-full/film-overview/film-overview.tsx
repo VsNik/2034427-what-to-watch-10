@@ -1,5 +1,7 @@
-import {FilmType} from '../../types/common';
-import {getRatingName} from '../../utils/common';
+import {FilmType} from '../../../types/common';
+import {getRatingName} from '../../../utils/common';
+
+const SIGNS = 1;
 
 type FilmOverviewProps = {
   film: FilmType;
@@ -14,7 +16,7 @@ function FilmOverview({film}: FilmOverviewProps): JSX.Element {
   return (
     <>
       <div className="film-rating">
-        <div className="film-rating__score">{rating?.toFixed(1)}</div>
+        <div className="film-rating__score">{rating?.toFixed(SIGNS)}</div>
         <p className="film-rating__meta">
           <span className="film-rating__level">{ratingName}</span>
           <span className="film-rating__count">{scoresCount} ratings</span>

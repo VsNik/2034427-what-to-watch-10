@@ -1,15 +1,18 @@
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import RatingSelect from './rating-select';
-import {MAX_RATING} from '../../constants/common';
+import {MAX_RATING} from '../../../constants/common';
 
 const SELECT_RATING = 5;
-const onChangeRating = jest.fn();
+const mockOnChangeRating = jest.fn();
 
 describe('Component: RatingSelect', () => {
   it('should render correctly', async () => {
     render(
-      <RatingSelect isSending={false} onChangeRating={onChangeRating}/>
+      <RatingSelect
+        isSending={false}
+        onChangeRating={mockOnChangeRating}
+      />
     );
 
     const radioElements = screen.getAllByRole('radio');
@@ -19,12 +22,15 @@ describe('Component: RatingSelect', () => {
 
     await userEvent.click(labelElements[SELECT_RATING]);
     expect(radioElements[SELECT_RATING]).toBeChecked();
-    expect(onChangeRating).toBeCalled();
+    expect(mockOnChangeRating).toBeCalled();
   });
 
   it('should disabled, if sending', () => {
     render(
-      <RatingSelect isSending onChangeRating={onChangeRating}/>
+      <RatingSelect
+        isSending
+        onChangeRating={mockOnChangeRating}
+      />
     );
 
     const radioElements = screen.getAllByRole('radio');
