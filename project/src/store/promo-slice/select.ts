@@ -4,3 +4,5 @@ import {SliceName} from '../../constants/common';
 export const selectPromoFilm = (state: State) => state[SliceName.Promo].promoFilm;
 
 export const selectIsLoadedPromo = (state: State) => state[SliceName.Promo].isLoaded;
+
+export const selectIsPromoError = (state: State) => state[SliceName.Films].isLoadError;

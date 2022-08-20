@@ -4,13 +4,15 @@ import {SimilarFilms, FilmCardFull, Footer} from '../../components';
 import {useAppDispatch} from '../../hooks/use-app-dispatch';
 import {fetchCommentsAction, fetchFilmAction, fetchSimilarFilmsAction} from '../../store/api-actions';
 import {useAppSelector} from '../../hooks/use-app-selector';
-import {selectIsLoadedFilm} from '../../store/film-slice/select';
+import {selectIsLoadedError, selectIsLoadedFilm} from '../../store/film-slice/select';
 import Loader from '../../components/loader/loader';
+import ServerError from '../../components/server-error/server-error';
 
 function Film(): JSX.Element {
   const params = useParams();
   const dispatch = useAppDispatch();
   const isLoading = useAppSelector(selectIsLoadedFilm);
+  const isErrorLoadFilm = useAppSelector(selectIsLoadedError);
   const filmId = params.id;
 
   useEffect(() => {
@@ -23,6 +25,10 @@ function Film(): JSX.Element {
 
   if (isLoading) {
     return <Loader/>;
+  }
+
+  if (isErrorLoadFilm) {
+    return <ServerError/>;
   }
 
   return (

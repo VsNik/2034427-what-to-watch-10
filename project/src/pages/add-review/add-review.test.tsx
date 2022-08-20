@@ -11,6 +11,12 @@ const mockStore = configureMockStore();
 const history = createMemoryHistory();
 const fakeFilm = makeFakeFilm();
 
+const mockAddReview = (
+  <HistoryRouter history={history}>
+    <AddReview/>
+  </HistoryRouter>
+);
+
 describe('Component: AddReview', () => {
   it('should render correctly', () => {
     const store = mockStore({
@@ -21,9 +27,7 @@ describe('Component: AddReview', () => {
 
     render(
       <Provider store={store}>
-        <HistoryRouter history={history}>
-          <AddReview/>
-        </HistoryRouter>
+        {mockAddReview}
       </Provider>
     );
 
@@ -31,5 +35,21 @@ describe('Component: AddReview', () => {
     expect(screen.getByText('Add review')).toBeInTheDocument();
     expect(screen.getByTestId('add-review-img')).toHaveAttribute('src', fakeFilm.backgroundImage);
     expect(screen.getByTestId('add-review-img')).toHaveAttribute('alt', fakeFilm.name);
+  });
+
+  it('should error screen, if load error', () => {
+    const store = mockStore({
+      AUTH: {authStatus: AuthStatus.Auth},
+      FILM: {film: fakeFilm, isLoaded: false, isLoadError: true},
+      COMMENTS: {isSending: false},
+    });
+
+    render(
+      <Provider store={store}>
+        {mockAddReview}
+      </Provider>
+    );
+
+    expect(screen.getByText(/server is not available/i)).toBeInTheDocument();
   });
 });

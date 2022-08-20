@@ -28,6 +28,7 @@ function FilmCard(props: FilmCardProps): JSX.Element {
 
     if (activeCard !== id) {
       videoRef.current?.pause();
+      videoRef.current?.load();
     }
 
     return () => {

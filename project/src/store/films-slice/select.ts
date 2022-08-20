@@ -9,6 +9,8 @@ export const selectFilms = (state: State) => state[SliceName.Films].films;
 
 export const selectIsLoadedFilms = (state: State) => state[SliceName.Films].isLoaded;
 
+export const selectIsLoadedError = (state: State) => state[SliceName.Films].isLoadError;
+
 export const selectFilterFilms = createSelector(
   [selectFilms, selectActiveGenre],
   (films, genre) =>

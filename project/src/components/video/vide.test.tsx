@@ -5,7 +5,7 @@ import {VIDEO_URL} from '../../utils/mocks';
 const MOCK_POSTER = 'mock-poster-url';
 
 describe('Component: Video', () => {
-  it('should', () => {
+  it('should render correctly', () => {
     const mockOnLoadedMetadata = jest.fn();
 
     render(

@@ -14,6 +14,7 @@ const fakeFilms = makeFakeFilms();
 
 describe('Component: Main', () => {
   window.HTMLMediaElement.prototype.pause = jest.fn();
+  window.HTMLMediaElement.prototype.load = jest.fn();
 
   it('should render correctly', async () => {
     const store = mockStore({

@@ -6,13 +6,16 @@ import {AuthStatus} from '../../constants/common';
 import {RouteType} from '../../types/common';
 import {useAppSelector} from '../../hooks/use-app-selector';
 import Loader from '../loader/loader';
-import {selectIsLoadedFilms} from '../../store/films-slice/select';
-import {selectIsLoadedPromo} from '../../store/promo-slice/select';
+import {selectIsLoadedError, selectIsLoadedFilms} from '../../store/films-slice/select';
+import {selectIsLoadedPromo, selectIsPromoError} from '../../store/promo-slice/select';
 import {selectAuthStatus} from '../../store/auth-slice/select';
+import ServerError from '../server-error/server-error';
 
 function App(): JSX.Element {
   const isFilmsLoaded = useAppSelector(selectIsLoadedFilms);
+  const isErrorLoadFilms = useAppSelector(selectIsLoadedError);
   const isPromoLoaded = useAppSelector(selectIsLoadedPromo);
+  const isErrorLoadPromo = useAppSelector(selectIsPromoError);
   const authStatus = useAppSelector(selectAuthStatus);
   const routes: RouteType[] = [
     {
@@ -59,6 +62,10 @@ function App(): JSX.Element {
 
   if (authStatus === AuthStatus.Unknown || isFilmsLoaded || isPromoLoaded) {
     return <Loader/>;
+  }
+
+  if (isErrorLoadFilms || isErrorLoadPromo) {
+    return <ServerError/>;
   }
 
   return (

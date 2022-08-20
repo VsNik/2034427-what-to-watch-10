@@ -11,26 +11,32 @@ describe('Film slice', () => {
     state = {
       film: defaultFilm,
       isLoaded: false,
-      similarFilms: []
+      similarFilms: [],
+      isLoadError: false,
     };
   });
 
   it('without additional parameters should return initial state',() => {
     expect(filmSlice.reducer(undefined, {type: UNKNOWN_ACTION}))
-      .toEqual({film: defaultFilm, isLoaded: false, similarFilms: []});
+      .toEqual({film: defaultFilm, isLoaded: false, similarFilms: [], isLoadError: false});
   });
 
   describe('fetchFilmAction test', () => {
     it('should update isSending to "true" if fetchFilmAction pending',() => {
       expect(filmSlice.reducer(state, {type: fetchFilmAction.pending.type}))
-        .toEqual({film: defaultFilm, isLoaded: true, similarFilms: []});
+        .toEqual({film: defaultFilm, isLoaded: true, similarFilms: [], isLoadError: false});
     });
 
     it('should update film if fetchFilmAction fulfilled',() => {
       const film = makeFakeFilm();
 
       expect(filmSlice.reducer(state, {type: fetchFilmAction.fulfilled.type, payload: film}))
-        .toEqual({film, isLoaded: false, similarFilms: []});
+        .toEqual({film, isLoaded: false, similarFilms: [], isLoadError: false});
+    });
+
+    it('should update isSending to "true" if fetchFilmAction rejected',() => {
+      expect(filmSlice.reducer(state, {type: fetchFilmAction.rejected.type}))
+        .toEqual({film: defaultFilm, isLoaded: false, similarFilms: [], isLoadError: true});
     });
   });
 
@@ -39,7 +45,7 @@ describe('Film slice', () => {
       const similarFilms = makeFakeFilms();
 
       expect(filmSlice.reducer(state, {type: fetchSimilarFilmsAction.fulfilled.type, payload: similarFilms}))
-        .toEqual({film: defaultFilm, isLoaded: false, similarFilms});
+        .toEqual({film: defaultFilm, isLoaded: false, similarFilms, isLoadError: false});
     });
   });
 
@@ -50,13 +56,13 @@ describe('Film slice', () => {
       const favoriteFilmNoEqualId = {...favoriteFilm, id: MOCK_ID};
 
       expect(filmSlice.reducer(state, {type: addToFavoriteAction.fulfilled.type, payload: favoriteFilmNoEqualId}))
-        .toEqual({film: defaultFilm, isLoaded: false, similarFilms: []});
+        .toEqual({film: defaultFilm, isLoaded: false, similarFilms: [], isLoadError: false});
 
       expect(filmSlice.reducer(state, {type: addToFavoriteAction.fulfilled.type, payload: favoriteFilm}))
-        .toEqual({film: favoriteFilm, isLoaded: false, similarFilms: []});
+        .toEqual({film: favoriteFilm, isLoaded: false, similarFilms: [], isLoadError: false});
 
       expect(filmSlice.reducer(state, {type: addToFavoriteAction.fulfilled.type, payload: noFavoriteFilm}))
-        .toEqual({film: noFavoriteFilm, isLoaded: false, similarFilms: []});
+        .toEqual({film: noFavoriteFilm, isLoaded: false, similarFilms: [], isLoadError: false});
     });
   });
 });

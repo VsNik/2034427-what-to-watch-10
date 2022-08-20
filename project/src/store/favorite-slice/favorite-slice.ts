@@ -6,6 +6,7 @@ import {fetchFavoritesAction} from '../api-actions';
 const initialState: FavoriteSlice = {
   favorites: [],
   isLoaded: false,
+  isLoadError: false,
 };
 
 export const favoriteSlice = createSlice({
@@ -16,10 +17,16 @@ export const favoriteSlice = createSlice({
     builder
       .addCase(fetchFavoritesAction.pending, (state) => {
         state.isLoaded = true;
+        state.isLoadError = false;
       })
       .addCase(fetchFavoritesAction.fulfilled, (state, action) => {
         state.isLoaded = false;
         state.favorites = action.payload;
+        state.isLoadError = false;
+      })
+      .addCase(fetchFavoritesAction.rejected, (state) => {
+        state.isLoaded = false;
+        state.isLoadError = true;
       });
   },
 });

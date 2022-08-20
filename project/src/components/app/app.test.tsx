@@ -40,6 +40,7 @@ describe('Application Routing', () => {
   beforeAll(() => {
     window.HTMLVideoElement.prototype.play = jest.fn();
     window.HTMLVideoElement.prototype.pause = jest.fn();
+    window.HTMLVideoElement.prototype.load = jest.fn();
   });
 
   it('should render "Main" when user navigate to "/"', () => {
@@ -146,5 +147,18 @@ describe('Application Routing', () => {
     render(<MockApp/>);
 
     expect(screen.getByTestId('spinner')).toBeInTheDocument();
+  });
+
+  it('should display error, if loading error', () => {
+    history.push(RouteName.Main);
+    store = mockStore({
+      AUTH: {authStatus: AuthStatus.Auth},
+      FILMS: {isLoaded: false, genre: DEFAULT_GENRE, films: [], isLoadError: true},
+      PROMO: {isLoaded: false, promoFilm: makeDefaultFilm()},
+    });
+
+    render(<MockApp/>);
+
+    expect(screen.getByText(/server is not available/i)).toBeInTheDocument();
   });
 });

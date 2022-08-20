@@ -26,22 +26,26 @@ export type FilmSlice = {
   film: FilmType;
   similarFilms: FilmType[];
   isLoaded: boolean;
+  isLoadError: boolean;
 }
 
 export type FilmsSlice = {
   genre: string;
   films: FilmType[];
   isLoaded: boolean;
+  isLoadError: boolean;
 }
 
 export type PromoSlice = {
   promoFilm: FilmType;
   isLoaded: boolean;
+  isLoadError: boolean;
 }
 
 export type FavoriteSlice = {
   favorites: FilmType[];
   isLoaded: boolean;
+  isLoadError: boolean;
 }
 
 export type PlayerSlice = {

@@ -5,7 +5,7 @@ import {Provider} from 'react-redux';
 import HistoryRouter from '../../components/history-route/history-route';
 import Film from './film';
 import {makeFakeFilms} from '../../utils/mocks';
-import {AuthStatus, DEFAULT_GENRE, MAX_COUNT_SIMILAR_FILMS} from '../../constants/common';
+import {AuthStatus, MAX_COUNT_SIMILAR_FILMS} from '../../constants/common';
 import {getFilmUrl} from '../../utils/route';
 
 const mockStore = configureMockStore();
@@ -14,22 +14,28 @@ const fakeFilms = makeFakeFilms();
 
 const fakeSimilarFilms = fakeFilms.slice(0, MAX_COUNT_SIMILAR_FILMS);
 
+const mockFilmComponent = (
+  <HistoryRouter history={history}>
+    <Film/>
+  </HistoryRouter>
+);
+
 describe('Component: Film', () => {
   window.HTMLMediaElement.prototype.pause = jest.fn();
+  window.HTMLMediaElement.prototype.load = jest.fn();
+  history.push(getFilmUrl(fakeFilms[0].id));
 
   it('should render correctly', () => {
-    history.push(getFilmUrl(fakeFilms[0].id));
+
     const store = mockStore({
       AUTH: {authStatus: AuthStatus.Auth, avatar: 'avatar'},
-      FILM: {genre: DEFAULT_GENRE, film: fakeFilms[0], similarFilms: fakeSimilarFilms, isLoaded: false},
+      FILM: {film: fakeFilms[0], similarFilms: fakeSimilarFilms, isLoaded: false},
       FILMS: {films: fakeFilms}
     });
 
     render(
       <Provider store={store}>
-        <HistoryRouter history={history}>
-          <Film/>
-        </HistoryRouter>
+        {mockFilmComponent}
       </Provider>
     );
 
@@ -45,5 +51,21 @@ describe('Component: Film', () => {
     expect(screen.getByText(/Add review/i)).toBeInTheDocument();
 
     expect(screen.getAllByTestId('film-card').length).toBe(fakeSimilarFilms.length);
+  });
+
+  it('should error screen, if load error', () => {
+    const store = mockStore({
+      AUTH: {authStatus: AuthStatus.Auth, avatar: 'avatar'},
+      FILM: {film: fakeFilms[0], similarFilms: fakeSimilarFilms, isLoaded: false, isLoadError: true},
+      FILMS: {films: fakeFilms}
+    });
+
+    render(
+      <Provider store={store}>
+        {mockFilmComponent}
+      </Provider>
+    );
+
+    expect(screen.getByText(/server is not available/i)).toBeInTheDocument();
   });
 });

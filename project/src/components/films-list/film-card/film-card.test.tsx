@@ -11,6 +11,7 @@ describe('Component: FilmCard', () => {
   beforeAll(() => {
     window.HTMLVideoElement.prototype.play = jest.fn();
     window.HTMLVideoElement.prototype.pause = jest.fn();
+    window.HTMLVideoElement.prototype.load = jest.fn();
   });
 
   it('should render correctly', async () => {

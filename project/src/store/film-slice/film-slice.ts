@@ -25,6 +25,7 @@ const initialState: FilmSlice = {
   },
   similarFilms: [],
   isLoaded: false,
+  isLoadError: false,
 };
 
 export const filmSlice = createSlice({
@@ -33,12 +34,18 @@ export const filmSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(fetchFilmAction.pending, (state, action) => {
+      .addCase(fetchFilmAction.pending, (state) => {
         state.isLoaded = true;
+        state.isLoadError = false;
       })
       .addCase(fetchFilmAction.fulfilled, (state, action) => {
         state.film = action.payload;
         state.isLoaded = false;
+        state.isLoadError = false;
+      })
+      .addCase(fetchFilmAction.rejected, (state) => {
+        state.isLoaded = false;
+        state.isLoadError = true;
       })
       .addCase(fetchSimilarFilmsAction.fulfilled, (state, action) => {
         state.similarFilms = action.payload;

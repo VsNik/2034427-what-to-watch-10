@@ -6,7 +6,8 @@ import type {FilmsSlice} from '../../types/state';
 const initialState: FilmsSlice = {
   genre: DEFAULT_GENRE,
   films: [],
-  isLoaded: false
+  isLoaded: false,
+  isLoadError: false,
 };
 
 export const filmsSlice = createSlice({
@@ -21,11 +22,19 @@ export const filmsSlice = createSlice({
     builder
       .addCase(fetchFilmsAction.pending, (state) => {
         state.isLoaded = true;
+        state.isLoadError = false;
       })
       .addCase(fetchFilmsAction.fulfilled, (state, action) => {
         state.films = action.payload;
         state.isLoaded = false;
+        state.isLoadError = false;
       })
+
+      .addCase(fetchFilmsAction.rejected, (state) => {
+        state.isLoaded = false;
+        state.isLoadError = true;
+      })
+
       .addCase(addToFavoriteAction.fulfilled, (state, action) => {
         const index = state.films.findIndex((item) => item.id === action.payload.id);
         state.films[index].isFavorite = action.payload.isFavorite;

@@ -13,6 +13,13 @@ const history = createMemoryHistory();
 const fakeFilms = makeFakeFilms();
 
 window.HTMLMediaElement.prototype.pause = jest.fn();
+window.HTMLMediaElement.prototype.load = jest.fn();
+
+const mockFavoriteFilm = (
+  <HistoryRouter history={history}>
+    <FavoriteFilms/>
+  </HistoryRouter>
+);
 
 describe('Component: FavoriteFilms', () => {
   it('should render correctly', () => {
@@ -23,9 +30,7 @@ describe('Component: FavoriteFilms', () => {
 
     render(
       <Provider store={store}>
-        <HistoryRouter history={history}>
-          <FavoriteFilms/>
-        </HistoryRouter>
+        {mockFavoriteFilm}
       </Provider>
     );
 
@@ -33,5 +38,20 @@ describe('Component: FavoriteFilms', () => {
 
     const cards = screen.getAllByTestId('film-card');
     expect(cards.length).toBe(fakeFilms.length);
+  });
+
+  it('should error screen, if load error', () => {
+    const store = mockStore({
+      AUTH: {authStatus: AuthStatus.Auth},
+      FAVORITE: {favorites: fakeFilms, isLoaded: false, isLoadError: true}
+    });
+
+    render(
+      <Provider store={store}>
+        {mockFavoriteFilm}
+      </Provider>
+    );
+
+    expect(screen.getByText(/server is not available/i)).toBeInTheDocument();
   });
 });

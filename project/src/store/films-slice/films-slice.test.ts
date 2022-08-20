@@ -13,30 +13,36 @@ describe('Films slice', () => {
     state = {
       genre: DEFAULT_GENRE,
       films: [],
-      isLoaded: false
+      isLoaded: false,
+      isLoadError: false,
     };
   });
 
   it('without additional parameters should return initial state', () => {
     expect(filmsSlice.reducer(undefined, {type: UNKNOWN_ACTION}))
-      .toEqual({genre: DEFAULT_GENRE, films: [], isLoaded: false});
+      .toEqual({genre: DEFAULT_GENRE, films: [], isLoaded: false, isLoadError: false});
   });
 
   it('should update genre', () => {
     expect(filmsSlice.reducer(state, changeGenre(NEW_GENRE)))
-      .toEqual({genre: NEW_GENRE, films: [], isLoaded: false});
+      .toEqual({genre: NEW_GENRE, films: [], isLoaded: false, isLoadError: false});
   });
 
   describe('fetchFilmsAction test', () => {
     it('should update isLoaded to "true" if fetchFilmsAction pending', () => {
       expect(filmsSlice.reducer(state, {type: fetchFilmsAction.pending.type}))
-        .toEqual({genre: DEFAULT_GENRE, films: [], isLoaded: true});
+        .toEqual({genre: DEFAULT_GENRE, films: [], isLoaded: true, isLoadError: false});
     });
 
     it('should update films if fetchFilmsAction fulfilled', () => {
       const films = makeFakeFilms();
       expect(filmsSlice.reducer(state, {type: fetchFilmsAction.fulfilled.type, payload: films}))
-        .toEqual({genre: DEFAULT_GENRE, films, isLoaded: false});
+        .toEqual({genre: DEFAULT_GENRE, films, isLoaded: false, isLoadError: false});
+    });
+
+    it('should update isLoaded to "true" if fetchFilmsAction rejected', () => {
+      expect(filmsSlice.reducer(state, {type: fetchFilmsAction.rejected.type}))
+        .toEqual({genre: DEFAULT_GENRE, films: [], isLoaded: false, isLoadError: true});
     });
   });
 
@@ -49,11 +55,12 @@ describe('Films slice', () => {
       state = {
         genre: DEFAULT_GENRE,
         films: [noFavoriteFilm, noFavoriteFilm2],
-        isLoaded: false
+        isLoaded: false,
+        isLoadError: false,
       };
 
       expect(filmsSlice.reducer(state, {type: addToFavoriteAction.fulfilled.type, payload: favoriteFilm}))
-        .toEqual({genre: DEFAULT_GENRE, films: [favoriteFilm, noFavoriteFilm2], isLoaded: false});
+        .toEqual({genre: DEFAULT_GENRE, films: [favoriteFilm, noFavoriteFilm2], isLoaded: false, isLoadError: false});
     });
   });
 });

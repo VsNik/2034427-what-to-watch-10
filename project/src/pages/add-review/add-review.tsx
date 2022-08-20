@@ -3,16 +3,18 @@ import {Link, useParams} from 'react-router-dom';
 import {Header, Poster, CommentForm} from '../../components';
 import {getAddReviewUrl, getFilmUrl} from '../../utils/route';
 import {useAppSelector} from '../../hooks/use-app-selector';
-import {selectFilm, selectIsLoadedFilm} from '../../store/film-slice/select';
+import {selectFilm, selectIsLoadedError, selectIsLoadedFilm} from '../../store/film-slice/select';
 import {useAppDispatch} from '../../hooks/use-app-dispatch';
 import {fetchFilmAction} from '../../store/api-actions';
 import Loader from '../../components/loader/loader';
+import ServerError from '../../components/server-error/server-error';
 
 function AddReview(): JSX.Element {
   const params = useParams();
   const dispatch = useAppDispatch();
   const film = useAppSelector(selectFilm);
   const isLoading = useAppSelector(selectIsLoadedFilm);
+  const isErrorLoadFilm = useAppSelector(selectIsLoadedError);
   const filmId = params.id;
 
   useEffect(() => {
@@ -23,6 +25,10 @@ function AddReview(): JSX.Element {
 
   if (isLoading) {
     return <Loader/>;
+  }
+
+  if (isErrorLoadFilm) {
+    return <ServerError/>;
   }
 
   const {id, name, posterImage, backgroundImage} = film;
